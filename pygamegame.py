@@ -13,12 +13,6 @@ CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-clock = pygame.time.Clock()
- 
-
- 
-
-
 class PygameGame(object):
 
     def init(self):
@@ -46,27 +40,6 @@ class PygameGame(object):
         pass
 
     def redrawAll(self, screen):
-        # w,h,m = self.width,self.height,self.margin
-        # basicfont = pygame.font.Font("DINPro.otf", 20)
-        # textScore = basicfont.render('score: %d' % (self.score), True, WHITE)
-        # textScorerect = textScore.get_rect()
-        # textScorerect.centerx,textScorerect.centery = w//2, h-(m//2)
-        # textTitle = basicfont.render("planet parasite", True, WHITE)
-        # textTitlerect = textTitle.get_rect()
-        # textTitlerect.centerx,textTitlerect.centery = w//2, (m//2)
-        # 
-       
-#       #   pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
-        #                     m, 5) #testing circle
-    
-   #    #   pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
-        # pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
-        # 
-        # pygame.draw.rect(screen, WHITE,(m,m, w-(2*m),h-(2*m)), 2) #border
-        # screen.blit(textScore, textScorerect)
-        # screen.blit(textTitle, textTitlerect)
         pass
 
     def isKeyPressed(self, key):
@@ -83,16 +56,15 @@ class PygameGame(object):
         self.speed = 25
         self.score = 0
         self.totalSeconds = 0
+        self.frameCount = 0
+        self.frameRate = 60
+        self.startTime = 90
         pygame.init()
 
     def run(self):
-        frame_count = 0
-        frame_rate = 60
-        start_time = 90
-        w,h,m = self.width,self.height,self.margin
         
         clock = pygame.time.Clock()
-        
+        w,h,m = self.width,self.height,self.margin
         screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
         pygame.display.set_caption(self.title)
@@ -108,8 +80,6 @@ class PygameGame(object):
         right = False
         
         while playing:
-            time = clock.tick(self.fps)
-            self.timerFired(time)
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     self.parasiteX -= self.speed
@@ -126,11 +96,9 @@ class PygameGame(object):
             
             basicfont = pygame.font.Font("DINPro.otf", 20)
             
-            # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
-        
             # --- Timer going up ---
             # Calculate total seconds
-            self.totalSeconds = frame_count // frame_rate
+            self.totalSeconds = self.frameCount // self.frameRate
         
             # Divide by 60 to get total minutes
             minutes = self.totalSeconds // 60
@@ -145,33 +113,34 @@ class PygameGame(object):
             # Blit to the screen
             text = basicfont.render(output_string, True, WHITE)
             screen.blit(text, [250, 250])
+            
+            '''
+            # --- Timer going down ---
+            # Calculate total seconds
+            self.totalSeconds = startTime - (self.frameCount // self.frameRate)
+            if self.totalSeconds < 0:
+                self.totalSeconds = 0
         
-            # # --- Timer going down ---
-            # # --- Timer going up ---
-            # # Calculate total seconds
-            # self.totalSeconds = start_time - (frame_count // frame_rate)
-            # if self.totalSeconds < 0:
-            #     self.totalSeconds = 0
+            # Divide by 60 to get total minutes
+            minutes = self.totalSeconds // 60
         
-   #        #   # Divide by 60 to get total minutes
-            # minutes = self.totalSeconds // 60
+            # Use modulus (remainder) to get seconds
+            seconds = self.totalSeconds % 60
         
-   #        #   # Use modulus (remainder) to get seconds
-            # seconds = self.totalSeconds % 60
+            # Use python string formatting to format in leading zeros
+            output_string = "Time left: {0:02}:{1:02}".format(minutes, seconds)
         
-   #        #   # Use python string formatting to format in leading zeros
-            # output_string = "Time left: {0:02}:{1:02}".format(minutes, seconds)
+            # Blit to the screen
+            text = basicfont.render(output_string, True, WHITE)
         
-   #        #   # Blit to the screen
-            # text = basicfont.render(output_string, True, WHITE)
-        
-   #        #   screen.blit(text, [250, 280])
+            screen.blit(text, [250, 280])
+            '''
         
             # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
-            frame_count += 1
+            self.frameCount += 1
         
             # Limit frames per second
-            clock.tick(frame_rate)
+            clock.tick(self.frameRate)
             
             pygame.display.flip()
         pygame.quit()
