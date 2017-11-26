@@ -1,17 +1,9 @@
 '''
 pygamegame.py
-created by Lukas Peraza
- for 15-112 F15 Pygame Optional Lecture, 11/11/15
+Citations: 
+--General format: Lukas Peraza for 15-112 F15 Pygame Optional Lecture, 11/11/15
+--Time Modules: http://programarcadegames.com/python_examples/f.php?file=timer.py
 
-use this code in your term project if you want
-- CITE IT
-- you can modify it to your liking
-  - BUT STILL CITE IT
-
-- you should remove the print calls from any function you aren't using
-- you might want to move the pygame.display.flip() to your redrawAll function,
-    in case you don't need to update the entire display every frame (then you
-    should use pygame.display.update(Rect) instead)
 '''
 import pygame
 import sys
@@ -20,6 +12,12 @@ from pygame.locals import *
 CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+
+clock = pygame.time.Clock()
+ 
+
+ 
+
 
 class PygameGame(object):
 
@@ -74,7 +72,7 @@ class PygameGame(object):
     def isKeyPressed(self, key):
         return self._keys.get(key, False)
 
-    def __init__(self, width=600, height=800, fps=50, title="PLANET PARASITE"):
+    def __init__(self, width=600, height=800, fps=100, title="PLANET PARASITE"):
         self.width = width
         self.height = height
         self.margin= self.width//8
@@ -84,17 +82,20 @@ class PygameGame(object):
         self.parasiteY = self.height//2
         self.speed = 25
         self.score = 0
+        self.totalSeconds = 0
         pygame.init()
 
     def run(self):
+        frame_count = 0
+        frame_rate = 60
+        start_time = 90
         w,h,m = self.width,self.height,self.margin
         
         clock = pygame.time.Clock()
+        
         screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
         pygame.display.set_caption(self.title)
-        
-        
 
         # stores all the keys currently being held down
         self._keys = dict()
@@ -122,6 +123,55 @@ class PygameGame(object):
                     playing = False
             screen.fill(CHARCOAL)
             self.redrawAll(screen)
+            
+            basicfont = pygame.font.Font("DINPro.otf", 20)
+            
+            # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+        
+            # --- Timer going up ---
+            # Calculate total seconds
+            self.totalSeconds = frame_count // frame_rate
+        
+            # Divide by 60 to get total minutes
+            minutes = self.totalSeconds // 60
+        
+            # Use modulus (remainder) to get seconds
+            seconds = self.totalSeconds % 60
+        
+            # Use python string formatting to format in leading zeros
+            # output_string = "Time: {0:02}:{1:02}".format(minutes, seconds)
+            output_string = "Seconds: {0:01}".format(self.totalSeconds)
+        
+            # Blit to the screen
+            text = basicfont.render(output_string, True, WHITE)
+            screen.blit(text, [250, 250])
+        
+            # # --- Timer going down ---
+            # # --- Timer going up ---
+            # # Calculate total seconds
+            # self.totalSeconds = start_time - (frame_count // frame_rate)
+            # if self.totalSeconds < 0:
+            #     self.totalSeconds = 0
+        
+   #        #   # Divide by 60 to get total minutes
+            # minutes = self.totalSeconds // 60
+        
+   #        #   # Use modulus (remainder) to get seconds
+            # seconds = self.totalSeconds % 60
+        
+   #        #   # Use python string formatting to format in leading zeros
+            # output_string = "Time left: {0:02}:{1:02}".format(minutes, seconds)
+        
+   #        #   # Blit to the screen
+            # text = basicfont.render(output_string, True, WHITE)
+        
+   #        #   screen.blit(text, [250, 280])
+        
+            # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
+            frame_count += 1
+        
+            # Limit frames per second
+            clock.tick(frame_rate)
             
             pygame.display.flip()
         pygame.quit()

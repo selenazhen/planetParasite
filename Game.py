@@ -15,17 +15,31 @@ CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
+
+
+
 class Game(PygameGame):
     def init(self):
         pass
+    
+    def __init__(self, w,h):
+        super().__init__()
+        self.timePassed = pygame.time.get_ticks()
+        
 
     def keyPressed(self, code, mod):
         pass
 
     def timerFired(self, dt):
+        # self.timePassed += dt
+        # # print (self.timePassed)
+        # if self.timePassed %10 == 0:
+        #     print ('hello', self.timePassed)
+        # print (self.timePassed)
         pass
 
     def redrawAll(self, screen):
+
         w,h,m = self.width,self.height,self.margin
         basicfont = pygame.font.Font("DINPro.otf", 20)
         textScore = basicfont.render('score: %d' % (self.score), True, WHITE)
@@ -35,9 +49,12 @@ class Game(PygameGame):
         textTitlerect = textTitle.get_rect()
         textTitlerect.centerx,textTitlerect.centery = w//2, (m//2)
         
+        
+    
        
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
+                
     
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
