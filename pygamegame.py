@@ -1,8 +1,5 @@
 '''
 pygamegame.py
-Citations: 
---General format: Lukas Peraza for 15-112 F15 Pygame Optional Lecture, 11/11/15
---Time Modules: http://programarcadegames.com/python_examples/f.php?file=timer.py
 
 '''
 import pygame
@@ -46,8 +43,7 @@ class PygameGame(object):
         return self._keys.get(key, False)
 
     def __init__(self, width=600, height=800, fps=100, title="PLANET PARASITE"):
-        self.width = width
-        self.height = height
+        self.width, self.height = width, height
         self.margin= self.width//8
         self.fps = fps
         self.title = title
@@ -82,13 +78,19 @@ class PygameGame(object):
         while playing:
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    self.parasiteX -= self.speed
+                    for planet in self.planetList:
+                        planet[0] -= self.speed
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    self.parasiteX += self.speed
+                    for planet in self.planetList:
+                        planet[0] += self.speed
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    self.parasiteY -= self.speed
+                    for planet in self.planetList:
+                        planet[1] -= self.speed
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    self.parasiteY += self.speed
+                    for planet in self.planetList:
+                        planet[1] += self.speed
+                elif (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
+                    playing = False
                 elif event.type == pygame.QUIT:
                     playing = False
             screen.fill(CHARCOAL)
@@ -108,7 +110,7 @@ class PygameGame(object):
         
             # Use python string formatting to format in leading zeros
             # output_string = "Time: {0:02}:{1:02}".format(minutes, seconds)
-            output_string = "Seconds: {0:01}".format(self.totalSeconds)
+            output_string = "Temp: Seconds: {0:01}".format(self.totalSeconds)
         
             # Blit to the screen
             text = basicfont.render(output_string, True, WHITE)

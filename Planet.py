@@ -39,5 +39,5 @@ def planetCoords(): #make a random planet and random size
     x = random.randrange(planetSize, screenWidth - planetSize)
     y = random.randrange(planetSize, screenHeight - planetSize)
  
-    print ((x,y))
-    return ((x,y))
+    # print ((x,y))
+    return ([x,y])

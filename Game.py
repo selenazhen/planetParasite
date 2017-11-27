@@ -6,9 +6,7 @@ import random
 
 '''
 Game.py
-
 Actually implements the game
-Lukas Peraza, 2015 for 15-112 Pygame Lecture
 '''
 
 CHARCOAL = (31,31,31)
@@ -23,12 +21,13 @@ class Game(PygameGame):
         self.planetList = [ ]
 
     def keyPressed(self, code, mod):
-        if code ==
+        pass
+        
     def timerFired(self, dt):
         pass
+        
     def redrawAll(self, screen):
         
-        # print (self.frameCount)
         if self.frameCount % 50 == 0:
             planet = planetCoords()
             self.planetList.append(planet)
@@ -47,9 +46,8 @@ class Game(PygameGame):
         
         for planet in self.planetList: 
             pygame.draw.circle(screen, WHITE,(planet[0],planet[1]),
-                            w//30, 2) #testing circle
+                            w//30, 2) #making planets
     
-        
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
         pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
