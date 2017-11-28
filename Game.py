@@ -1,6 +1,6 @@
 import pygame
 from pygamegame import PygameGame
-from Planet import Planet, planetCoordsX, planetCoordsY
+from Planet import Planet, planetCoordsX,planetCoordsY
 import random
 
 
@@ -16,12 +16,14 @@ BLACK = (0,0,0)
 
 class Game(PygameGame):
     def init(self):
+        Planet.init()
+        self.planets = pygame.sprite.Group()
+        # for i in range(5):
+        #     x = random.randint(0, self.width)
+        #     y = random.randint(0, self.height)
+        #     self.planets.add(Planet(x, y))
         pass
         
-    def __init__(self, w,h):
-        super().__init__()
-        pass
-
     def keyPressed(self, code, mod):
         pass
         
@@ -40,6 +42,14 @@ class Game(PygameGame):
         
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
+        
+        
+        if self.frameCount % 50 == 0:
+            x = planetCoordsX()
+            y = planetCoordsY()
+            self.planets.add(Planet(x, y))
+            print ('update')
+        self.planets.draw(screen)
         
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect

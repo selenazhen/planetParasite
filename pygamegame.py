@@ -6,25 +6,12 @@ import pygame
 import sys
 import random
 from pygame.locals import *
-from Planet import Planet, planetCoordsX,planetCoordsY
 
 CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
 
-  
-#creating circle
-class Circle(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.Surface((50,50))
-        self.image.fill((0,255,0))
-        pygame.draw.circle(self.image,(255,0,0),(25,25),25,0)
-        self.rect=self.image.get_rect()
-    def update(self):
-        self.rect.center=pygame.mouse.get_pos()
-  
 class PygameGame(object):
 
     def init(self):
@@ -92,6 +79,7 @@ class PygameGame(object):
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     print ('left')
+                    self.planets.update(10,0,0,0)
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     print ('right')
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):
