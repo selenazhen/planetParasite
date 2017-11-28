@@ -1,6 +1,6 @@
 import pygame
 from pygamegame import PygameGame
-from Planet import Planet, planetCoords
+from Planet import Planet, planetCoordsX, planetCoordsY
 import random
 
 
@@ -16,9 +16,10 @@ BLACK = (0,0,0)
 class Game(PygameGame):
     def init(self):
         pass
+        
     def __init__(self, w,h):
         super().__init__()
-        self.planetList = [ ]
+        self.planetList = pygame.sprite.Group()
 
     def keyPressed(self, code, mod):
         pass
@@ -26,12 +27,10 @@ class Game(PygameGame):
     def timerFired(self, dt):
         pass
         
-    def redrawAll(self, screen):
+    # def run(self):
+    #     super().__init__()
         
-        if self.frameCount % 50 == 0:
-            planet = planetCoords()
-            self.planetList.append(planet)
-            
+    def redrawAll(self, screen):
         w,h,m = self.width,self.height,self.margin
         basicfont = pygame.font.Font("DINPro.otf", 20)
         textScore = basicfont.render('score: %d' % (self.score), True, WHITE)
@@ -44,9 +43,17 @@ class Game(PygameGame):
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
         
-        for planet in self.planetList: 
-            pygame.draw.circle(screen, WHITE,(planet[0],planet[1]),
-                            w//30, 2) #making planets
+        pCoordsX = planetCoordsX()
+        pCoordsY = planetCoordsY()
+        planet = Planet(pCoordsX, pCoordsY)
+        
+        if self.frameCount % 50 == 0:
+            self.planetList.add(planet)
+            print ('updating')
+            print (self.planetList)
+        
+        self.planetList.update()
+        self.planetList.draw(screen)
     
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect

@@ -5,6 +5,7 @@ pygamegame.py
 import pygame
 import sys
 from pygame.locals import *
+# from Planet import Planet, planetCoords
 
 CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
@@ -55,9 +56,13 @@ class PygameGame(object):
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
+        self.planetList = pygame.sprite.Group()
         pygame.init()
 
     def run(self):
+        
+        
+ 
         
         clock = pygame.time.Clock()
         w,h,m = self.width,self.height,self.margin
@@ -78,23 +83,38 @@ class PygameGame(object):
         while playing:
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    for planet in self.planetList:
-                        planet[0] -= self.speed
+                    # for planet in self.planetList:
+                    #     planet[0] -= self.speed
+                    planet.moveLeft()
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    for planet in self.planetList:
-                        planet[0] += self.speed
+                    # for planet in self.planetList:
+                    #     planet[0] += self.speed
+                    planet.moveRight()
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    for planet in self.planetList:
-                        planet[1] -= self.speed
+                    # for planet in self.planetList:
+                    #     planet[1] -= self.speed
+                    planet.moveUp()
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    for planet in self.planetList:
-                        planet[1] += self.speed
-                elif (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
+                    # for planet in self.planetList:
+                    #     planet[1] += self.speed
+                    planet.moveDown()
+                if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
                 elif event.type == pygame.QUIT:
                     playing = False
+            
+            
+            
             screen.fill(CHARCOAL)
+            
             self.redrawAll(screen)
+            
+            # # planetList.update()
+            # planet = Planet(100,100)
+            # 
+            # self.planetList.add(planet)
+            # # self.planetList.update()
+            # planet.draw(screen)
             
             basicfont = pygame.font.Font("DINPro.otf", 20)
             
