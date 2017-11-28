@@ -11,7 +11,6 @@ CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-
 class PygameGame(object):
 
     def init(self):
@@ -79,7 +78,6 @@ class PygameGame(object):
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     print ('left')
-                    self.planets.update(10,0,0,0)
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     print ('right')
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):

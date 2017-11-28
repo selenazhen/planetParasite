@@ -2,6 +2,8 @@
 15112 F17 Term Project
 
 
+To run, run Game.py
+
 Selena Zhen (szhen)
 
 Citations: 

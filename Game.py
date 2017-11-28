@@ -18,10 +18,6 @@ class Game(PygameGame):
     def init(self):
         Planet.init()
         self.planets = pygame.sprite.Group()
-        # for i in range(5):
-        #     x = random.randint(0, self.width)
-        #     y = random.randint(0, self.height)
-        #     self.planets.add(Planet(x, y))
         pass
         
     def keyPressed(self, code, mod):
@@ -42,7 +38,6 @@ class Game(PygameGame):
         
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
-        
         
         if self.frameCount % 50 == 0:
             x = planetCoordsX()
