@@ -24,6 +24,8 @@ class Planet(pygame.sprite.Sprite):
         self.image = pygame.Surface((planetSize, planetSize), pygame.SRCALPHA)
         self.rect = self.image.get_rect() #Fetch the rectangle object that 
                                             #has the dimensions of the image.
+        pygame.draw.circle(self.image, WHITE,(x,y),
+                            planetSize, 2) #testing circle
 
     def moveLeft(self):
         self.x -= 10
@@ -43,11 +45,10 @@ class Planet(pygame.sprite.Sprite):
 
     def draw(self,screen,pCoordsX,pCoordsY): #call draw to show circles
         pygame.draw.circle(screen, WHITE,(pCoordsX,pCoordsY),
-                            planetSize, 5) #testing circle
+                            planetSize, 2) #testing circle
 
 
 def planetCoordsX(): #make a random planet and random size
-    
     x = random.randrange(planetSize, screenWidth - planetSize)
     return x
     

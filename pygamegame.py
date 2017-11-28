@@ -5,7 +5,7 @@ pygamegame.py
 import pygame
 import sys
 from pygame.locals import *
-# from Planet import Planet, planetCoords
+# from Planet import Planet, planetCoordsX,planetCoordsY
 
 CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
@@ -56,7 +56,7 @@ class PygameGame(object):
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
-        self.planetList = pygame.sprite.Group()
+        # self.planetList = pygame.sprite.Group()
         pygame.init()
 
     def run(self):
@@ -103,19 +103,10 @@ class PygameGame(object):
                 elif event.type == pygame.QUIT:
                     playing = False
             
-            
-            
             screen.fill(CHARCOAL)
             
             self.redrawAll(screen)
-            
-            # # planetList.update()
-            # planet = Planet(100,100)
-            # 
-            # self.planetList.add(planet)
-            # # self.planetList.update()
-            # planet.draw(screen)
-            
+        
             basicfont = pygame.font.Font("DINPro.otf", 20)
             
             # --- Timer going up ---

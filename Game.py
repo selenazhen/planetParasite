@@ -27,9 +27,6 @@ class Game(PygameGame):
     def timerFired(self, dt):
         pass
         
-    # def run(self):
-    #     super().__init__()
-        
     def redrawAll(self, screen):
         w,h,m = self.width,self.height,self.margin
         basicfont = pygame.font.Font("DINPro.otf", 20)
@@ -47,21 +44,26 @@ class Game(PygameGame):
         pCoordsY = planetCoordsY()
         planet = Planet(pCoordsX, pCoordsY)
         
-        if self.frameCount % 50 == 0:
+        
+        if self.frameCount % 50 == 0 :
             self.planetList.add(planet)
             print ('updating')
-            print (self.planetList)
+            # print (self.planetList.sprites)
+        
         
         self.planetList.update()
         self.planetList.draw(screen)
-    
-        pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
-        pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
-        pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
-        pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
+        # planet.draw(screen,pCoordsX,pCoordsY)
         
+        
+        
+        # pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
+        # pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
+        # pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
+        # pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
+        # 
         pygame.draw.rect(screen, WHITE,(m,m, w-(2*m),h-(2*m)), 2) #border
-        screen.blit(textScore, textScorerect)
-        screen.blit(textTitle, textTitlerect)
+        # screen.blit(textScore, textScorerect)
+        # screen.blit(textTitle, textTitlerect)
 
 Game(600, 800).run()
