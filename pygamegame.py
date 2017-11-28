@@ -4,18 +4,31 @@ pygamegame.py
 '''
 import pygame
 import sys
+import random
 from pygame.locals import *
-# from Planet import Planet, planetCoordsX,planetCoordsY
+from Planet import Planet, planetCoordsX,planetCoordsY
 
 CHARCOAL = (31,31,31)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
+
+  
+#creating circle
+class Circle(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        pygame.draw.circle(self.image,(255,0,0),(25,25),25,0)
+        self.rect=self.image.get_rect()
+    def update(self):
+        self.rect.center=pygame.mouse.get_pos()
+  
 class PygameGame(object):
 
     def init(self):
         pass
-
     def mousePressed(self, x, y):
         pass
 
@@ -43,7 +56,7 @@ class PygameGame(object):
     def isKeyPressed(self, key):
         return self._keys.get(key, False)
 
-    def __init__(self, width=600, height=800, fps=100, title="PLANET PARASITE"):
+    def __init__(self, width=600, height=800, fps=50, title="PLANET PARASITE"):
         self.width, self.height = width, height
         self.margin= self.width//8
         self.fps = fps
@@ -56,14 +69,9 @@ class PygameGame(object):
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
-        # self.planetList = pygame.sprite.Group()
         pygame.init()
 
     def run(self):
-        
-        
- 
-        
         clock = pygame.time.Clock()
         w,h,m = self.width,self.height,self.margin
         screen = pygame.display.set_mode((self.width, self.height))
@@ -83,28 +91,19 @@ class PygameGame(object):
         while playing:
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    # for planet in self.planetList:
-                    #     planet[0] -= self.speed
-                    planet.moveLeft()
+                    print ('left')
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    # for planet in self.planetList:
-                    #     planet[0] += self.speed
-                    planet.moveRight()
+                    print ('right')
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    # for planet in self.planetList:
-                    #     planet[1] -= self.speed
-                    planet.moveUp()
+                    print ('up')
                 elif (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    # for planet in self.planetList:
-                    #     planet[1] += self.speed
-                    planet.moveDown()
+                    print ('down')
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
                 elif event.type == pygame.QUIT:
                     playing = False
             
             screen.fill(CHARCOAL)
-            
             self.redrawAll(screen)
         
             basicfont = pygame.font.Font("DINPro.otf", 20)
