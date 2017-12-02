@@ -81,15 +81,19 @@ class PygameGame(object):
                     pygame.quit()
                     raise SystemExit
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
+                    print ('left key')
                     for planet in self.planetGroup:
                         planet.move(-self.speed,0)
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
+                    print ('right key')
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)
                 if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
+                    print ('up key')
                     for planet in self.planetGroup:
                         planet.move(0,-self.speed)
                 if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
+                    print ('down key')
                     for planet in self.planetGroup:
                         planet.move(0,self.speed)
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):

@@ -16,12 +16,7 @@ BLACK = (0,0,0)
 
 class Game(PygameGame):
     def init(self):
-        planet1 = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
-        planet2 = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
         self.planetGroup = pygame.sprite.Group()
-        self.planetGroup.add((planet1, planet2))
-
-        pass
         
     def keyPressed(self, code, mod):
         pass
@@ -41,7 +36,11 @@ class Game(PygameGame):
         
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
-
+                            
+        if self.frameCount % 50 == 0:
+            planet = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
+            self.planetGroup.add(planet)
+        
         self.planetGroup.draw(screen)
         
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
