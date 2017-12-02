@@ -78,15 +78,15 @@ class PygameGame(object):
             for event in pygame.event.get():
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     print ('left')
-                elif (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
+                if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     print ('right')
-                elif (event.type == pygame.KEYDOWN) and (event.key == K_UP):
+                if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
                     print ('up')
-                elif (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
+                if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
                     print ('down')
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
-                elif event.type == pygame.QUIT:
+                if event.type == pygame.QUIT:
                     playing = False
             
             screen.fill(CHARCOAL)

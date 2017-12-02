@@ -17,7 +17,7 @@ BLACK = (0,0,0)
 class Game(PygameGame):
     def init(self):
         Planet.init()
-        self.planets = pygame.sprite.Group()
+
         pass
         
     def keyPressed(self, code, mod):
@@ -38,13 +38,7 @@ class Game(PygameGame):
         
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
-        
-        if self.frameCount % 50 == 0:
-            x = planetCoordsX()
-            y = planetCoordsY()
-            self.planets.add(Planet(x, y))
-            print ('update')
-        self.planets.draw(screen)
+
         
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
@@ -56,3 +50,9 @@ class Game(PygameGame):
         screen.blit(textTitle, textTitlerect)
 
 Game(600, 800).run()
+
+
+# scrolling and gameplay by saturday night
+# tentacles by monday 
+# powerups by wednesday/deadline or focus on making tentacles more interesting
+
