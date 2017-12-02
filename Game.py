@@ -38,7 +38,8 @@ class Game(PygameGame):
                             m, 5) #testing circle
                             
         if self.frameCount % 50 == 0:
-            planet = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
+            # planet = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
+            planet = Planet()
             self.planetGroup.add(planet)
         
         self.planetGroup.draw(screen)
