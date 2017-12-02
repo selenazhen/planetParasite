@@ -1,6 +1,6 @@
 import pygame
 from pygamegame import PygameGame
-from Planet import Planet, planetCoordsX,planetCoordsY
+from Planet import Planet
 import random
 
 
@@ -16,7 +16,10 @@ BLACK = (0,0,0)
 
 class Game(PygameGame):
     def init(self):
-        Planet.init()
+        planet1 = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
+        planet2 = Planet(random.randrange(0,self.width),random.randrange(0,self.height))
+        self.planetGroup = pygame.sprite.Group()
+        self.planetGroup.add((planet1, planet2))
 
         pass
         
@@ -39,6 +42,7 @@ class Game(PygameGame):
         pygame.draw.circle(screen, WHITE,(self.parasiteX,self.parasiteY),
                             m, 5) #testing circle
 
+        self.planetGroup.draw(screen)
         
         pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect

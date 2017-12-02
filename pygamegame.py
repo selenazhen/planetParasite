@@ -55,6 +55,7 @@ class PygameGame(object):
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
+        self.speed = 15
         pygame.init()
 
     def run(self):
@@ -76,17 +77,22 @@ class PygameGame(object):
         
         while playing:
             for event in pygame.event.get():
-                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    print ('left')
-                if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    print ('right')
-                if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    print ('up')
-                if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    print ('down')
-                if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
-                    playing = False
                 if event.type == pygame.QUIT:
+                    pygame.quit()
+                    raise SystemExit
+                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
+                    for planet in self.planetGroup:
+                        planet.move(-self.speed,0)
+                if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
+                    for planet in self.planetGroup:
+                        planet.move(self.speed,0)
+                if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
+                    for planet in self.planetGroup:
+                        planet.move(0,-self.speed)
+                if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
+                    for planet in self.planetGroup:
+                        planet.move(0,self.speed)
+                if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
             
             screen.fill(CHARCOAL)
