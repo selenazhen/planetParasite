@@ -16,8 +16,8 @@ class Planet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         #randomize position with posX and posY
-        posX = random.randrange(planetSize,screenWidth-planetSize)
-        posY = random.randrange(planetSize,screenHeight-planetSize)
+        posX = random.randrange(0,screenWidth)
+        posY = random.randrange(0,screenHeight)
         #find location of image surface
         imageX = posX+planetSize*2
         imageY = posY+planetSize*2

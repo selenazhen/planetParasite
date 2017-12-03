@@ -39,20 +39,22 @@ class PygameGame(object):
     def isKeyPressed(self, key):
         return self._keys.get(key, False)
 
-    def __init__(self, width=600, height=800, fps=50, title="PLANET PARASITE"):
+    def __init__(self, width=screenWidth, height=screenHeight, fps=50, title="PLANET PARASITE"):
         self.width, self.height = width, height
         self.margin= self.width//10
         self.fps = fps
         self.title = title
+        self.bgColor = CHARCOAL
         self.score = 0
         self.totalSeconds = 0
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
-        self.speed = 5
+        self.speed = 20
         self.borderX0 = -self.width
         self.borderY0 = -self.height
         self.collisions = 0
+        self.keyCont = False
         pygame.init()
 
     def run(self):
@@ -77,30 +79,30 @@ class PygameGame(object):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     raise SystemExit
-                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT) and (self.keyCont == True):
+                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     # print ('left key')
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)
-                    self.borderX0 = self.borderX0 + self.speed
+                    # self.borderX0 = self.borderX0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     # print ('right key')
                     for planet in self.planetGroup:
                         planet.move(-self.speed,0)
-                    self.borderX0 = self.borderX0 - self.speed
+                    # self.borderX0 = self.borderX0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
                     # print ('up key')
                     for planet in self.planetGroup:
                         planet.move(0,self.speed)
-                    self.borderY0 = self.borderY0 + self.speed
+                    # self.borderY0 = self.borderY0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
                     # print ('down key')
                     for planet in self.planetGroup:
                         planet.move(0,-self.speed)
-                    self.borderY0 = self.borderY0 - self.speed
+                    # self.borderY0 = self.borderY0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
             
-            screen.fill(CHARCOAL)
+            screen.fill(self.bgColor)
             self.redrawAll(screen)
             basicfont = pygame.font.Font("DINPro.otf", 20)
 
@@ -120,7 +122,7 @@ class PygameGame(object):
         
             # Blit to the screen
             text = basicfont.render(output_string, True, WHITE)
-            screen.blit(text, [250, 250])
+            # screen.blit(text, [250, 250])
             
             '''
             # --- Timer going down ---

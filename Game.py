@@ -18,7 +18,8 @@ class Game(PygameGame):
         self.planetGroup = pygame.sprite.Group()
         self.parasite = pygame.sprite.Group()
         self.capturedPlanets = pygame.sprite.Group()
-        
+        parasiteNew = Parasite() 
+        self.parasite.add(parasiteNew)
     def keyPressed(self, code, mod):
         pass
         
@@ -41,8 +42,7 @@ class Game(PygameGame):
         #                 self.width*3, self.height*3),2) 
         
         #initialize parasite 
-        parasiteNew = Parasite() 
-        self.parasite.add(parasiteNew)
+
             
         #add a planet every second or so
         if self.frameCount % 30 == 0: 
@@ -50,10 +50,6 @@ class Game(PygameGame):
             self.planetGroup.add(planet)
             print ('new planet')
         
-        if event.type == pygame.KEYDOWN: 
-            self.keyCont == True
-        if event.type == pygame.KEYUP:
-            self.keyCont == False
             
         for parasite in self.parasite:
             collisionList = pygame.sprite.spritecollide(parasite,self.planetGroup,  False, pygame.sprite.collide_circle)
@@ -73,7 +69,7 @@ class Game(PygameGame):
         screen.blit(textScore, textScorerect)
         screen.blit(textTitle, textTitlerect)
 
-Game(600, 800).run()
+Game(screenWidth, screenHeight).run()
 
 
 # scrolling and gameplay by saturday night
