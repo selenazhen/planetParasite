@@ -17,6 +17,7 @@ class Game(PygameGame):
     def init(self):
         self.planetGroup = pygame.sprite.Group()
         self.parasite = pygame.sprite.Group()
+        self.capturedPlanets = pygame.sprite.Group()
         
     def keyPressed(self, code, mod):
         pass
@@ -39,45 +40,34 @@ class Game(PygameGame):
         # pygame.draw.rect(screen, WHITE,(self.borderX0, self.borderY0, 
         #                 self.width*3, self.height*3),2) 
         
-        #initialize parasite
+        #initialize parasite 
         parasiteNew = Parasite() 
         self.parasite.add(parasiteNew)
             
-        if self.frameCount % 100 == 0: #add a planet every second or so
+        #add a planet every second or so
+        if self.frameCount % 30 == 0: 
             planet = Planet()
             self.planetGroup.add(planet)
             print ('new planet')
+        
+        if event.type == pygame.KEYDOWN: 
+            self.keyCont == True
+        if event.type == pygame.KEYUP:
+            self.keyCont == False
             
+        for parasite in self.parasite:
+            collisionList = pygame.sprite.spritecollide(parasite,self.planetGroup,  False, pygame.sprite.collide_circle)
+            for captured in collisionList:
+                self.planetGroup.remove(captured)
+                self.score += 10
             
-        for planet in self.planetGroup:
-            hits = pygame.sprite.spritecollide(planet, self.parasite, False, pygame.sprite.collide_circle)
-            if hits:
-                print ('its in')
-            # if hits:
-            #     playing = False
-        
-        
-        
-        
-        # for planet in self.planetGroup:
-        #     if math.sqrt(((planet.coordsX-(self.width//2))**2)+((planet.coordsY-(self.height//2))**2)) <= ((self.width//20) + (self.width//8)):
-        #         print ('collision')
-        # # #     # print (planet.coordsX,planet.coordsY)
-        # #     for parasite in self.parasite:
-        # # #         # print (parasite.coordsX)
-        # #         if math.sqrt(((planet.coordsX-parasite.coordsX)**2)+((planet.coordsY-parasite.coordsY)**2)) <= ((self.width//20) + (self.width//8)):
-        # #             # print ('its a collision', planet)
-        # #             self.collisions += 1
-        # #             print (self.collisions)
-        # 
-        # # print (self.width//20+self.width//8)
-        
         self.planetGroup.draw(screen)
         self.parasite.draw(screen)
-        # pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
-        # pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
+        
+        pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
+        pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
+        pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
+        pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
         
         pygame.draw.rect(screen, WHITE,(m,m, w-(2*m),h-(2*m)), 2) #border
         screen.blit(textScore, textScorerect)

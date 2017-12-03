@@ -41,7 +41,7 @@ class PygameGame(object):
 
     def __init__(self, width=600, height=800, fps=50, title="PLANET PARASITE"):
         self.width, self.height = width, height
-        self.margin= self.width//8
+        self.margin= self.width//10
         self.fps = fps
         self.title = title
         self.score = 0
@@ -49,7 +49,7 @@ class PygameGame(object):
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
-        self.speed = 15
+        self.speed = 5
         self.borderX0 = -self.width
         self.borderY0 = -self.height
         self.collisions = 0
@@ -77,7 +77,7 @@ class PygameGame(object):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     raise SystemExit
-                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
+                if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT) and (self.keyCont == True):
                     # print ('left key')
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)

@@ -25,7 +25,7 @@ class Planet(pygame.sprite.Sprite):
         self.coordsX = imageX//2 #keep circle centered on middle of image surface
         self.coordsY = imageY//2
         self.rect = self.image.get_rect()
-        self.radius = planetSize
+        self.radius = planetSize-2
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         pygame.draw.circle(self.image, WHITE,(self.coordsX,self.coordsY),
                             planetSize, 2) #testing circle
