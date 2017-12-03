@@ -159,77 +159,77 @@
 # How To Run: python detectSpriteCollision.py 
 ############################################################################
   
-# import pygame
-# from pygame.locals import *
-# import random
-#   
-# screen=pygame.display.set_mode((640,480),0,32)
-# pygame.display.set_caption("Collision Detection")
-#   
-#   
-# #creating the boxes
-# class Boxes(pygame.sprite.Sprite):
-#     def __init__(self):
-#         pygame.sprite.Sprite.__init__(self)
-#         self.image=pygame.Surface((50,50))
-#         self.rect=self.image.get_rect()
-#         self.image.fill((255,255,255))
-#         pygame.draw.circle(self.image,(0,0,0),(25,25),25,0)
-#         
-#         self.rect.center=(100,100)
-#   
-# #creating circle
-# class Circle(pygame.sprite.Sprite):
-#     def __init__(self):
-#         pygame.sprite.Sprite.__init__(self)
-#         self.image=pygame.Surface((50,50))
-#         self.image.fill((0,255,0))
-#         pygame.draw.circle(self.image,(255,0,0),(25,25),25,0)
-#         self.rect=self.image.get_rect()
-#     def update(self):
-#         self.rect.center=pygame.mouse.get_pos()
-#   
-#   
-# def main():
-#     background=pygame.Surface(screen.get_size())
-#     background=background.convert()
-#     background.fill((255,255,255))
-#     screen.blit(background,(0,0))
-#   
-#     boxes=[]
-#     for i in range(0,10):
-#         boxes.append(Boxes())
-#   
-#     circle=Circle()
-#     allSprites=pygame.sprite.Group(boxes)
-#     circleSprite=pygame.sprite.Group(circle)
-#     while 1:
-#         for i in pygame.event.get():
-#             if i.type==QUIT:
-#                 exit()
-#   
-#   
-#         #checking the collision.check 'pydoc pygame.sprite.spritecollide' for mode details. True is used for sprite killing. It doesn't kill the sprite in actual.It is still present in the computer memory though.It has just removed it from the group so that no further display of that sprite is possible.
-#         if pygame.sprite.spritecollide(circle,allSprites,True):
-#             print ("collision")
-#   
-#         #following the CUD method
-#         allSprites.clear(screen,background)
-#         circleSprite.clear(screen,background)
-#         allSprites.update()
-#         circleSprite.update()
-#         allSprites.draw(screen)
-#         circleSprite.draw(screen)
-#         pygame.display.flip()
-#   
-#   
-# if __name__=='__main__':
-#     main()
-#   
-# """You can also check the collision about the rect attributes. There are many ways to do that.Example:
-# 1.circle.rect.colliderect(box1) will check the collision between the circle and box1 collision
-# 2. pygame.sprite.collide_rect(sprite1,sprite2) willl also do the same """
-#   
+import pygame
+from pygame.locals import *
+import random
+  
+screen=pygame.display.set_mode((640,480),0,32)
+pygame.display.set_caption("Collision Detection")
+  
+  
+#creating the boxes
+class Boxes(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.Surface((50,50))
+        self.rect=self.image.get_rect()
+        self.image.fill((255,255,255))
+        pygame.draw.circle(self.image,(0,0,0),(25,25),25,0)
+        
+        self.rect.center=(100,100)
+  
+#creating circle
+class Circle(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        pygame.draw.circle(self.image,(255,0,0),(25,25),25,0)
+        self.rect=self.image.get_rect()
+    def update(self):
+        self.rect.center=pygame.mouse.get_pos()
+  
+  
+def main():
+    background=pygame.Surface(screen.get_size())
+    background=background.convert()
+    background.fill((255,255,255))
+    screen.blit(background,(0,0))
+  
+    boxes=[]
+    for i in range(0,10):
+        boxes.append(Boxes())
+  
+    circle=Circle()
+    allSprites=pygame.sprite.Group(boxes)
+    circleSprite=pygame.sprite.Group(circle)
+    while 1:
+        for i in pygame.event.get():
+            if i.type==QUIT:
+                exit()
+  
+  
+        #checking the collision.check 'pydoc pygame.sprite.spritecollide' for mode details. True is used for sprite killing. It doesn't kill the sprite in actual.It is still present in the computer memory though.It has just removed it from the group so that no further display of that sprite is possible.
+        if pygame.sprite.spritecollide(circle,allSprites,True):
+            print ("collision")
+  
+        #following the CUD method
+        allSprites.clear(screen,background)
+        circleSprite.clear(screen,background)
+        allSprites.update()
+        circleSprite.update()
+        allSprites.draw(screen)
+        circleSprite.draw(screen)
+        pygame.display.flip()
+  
+  
+if __name__=='__main__':
+    main()
+  
+"""You can also check the collision about the rect attributes. There are many ways to do that.Example:
+1.circle.rect.colliderect(box1) will check the collision between the circle and box1 collision
+2. pygame.sprite.collide_rect(sprite1,sprite2) willl also do the same """
+  
 
 
 ####
@@ -338,73 +338,73 @@
 #             updateRects.append(man.rect)
 #         pygame.display.update(updateRects)
 
-
-''' pygame_sprite_keys1.py
-move a sprite rect with the arrow keys
-see also ...
-http://www.pygame.org/docs/ref/sprite.html
-http://www.pygame.org/docs/ref/time.html
-'''
-
-import pygame as pygame
-import sys
-from pygame.locals import *
-import random
-
-speed = 5
-
-pygame.init()
-width = 640
-height = 480
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("move with arrow keys (escape key to exit)")
-
-# color (r, g, b) tuple, values 0 to 255
-white = (255, 255, 255)
-background = pygame.Surface(screen.get_size())
-background.fill(white)
-
-class Planet(pygame.sprite.Sprite):
-
-    def __init__(self, xPosition, yPosition):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/planet1.png').convert_alpha()
-        self.rect = self.image.get_rect()
-        self.rect.centerx = xPosition
-        self.rect.centery = yPosition
-    def move(self, xMove,yMove):
-        self.rect.centerx = self.rect.centerx + xMove
-        self.rect.centery = self.rect.centery + yMove
-
-planet1 = Planet(random.randrange(0,width),random.randrange(0,height))
-planet2 = Planet(random.randrange(0,width),random.randrange(0,height))
-planetGroup = pygame.sprite.Group()
-planetGroup.add((planet1, planet2))
-
-clock = pygame.time.Clock()
-while 1:
-    # limit runtime speed to 30 frames/second
-    clock.tick(30)
-    keyinput = pygame.key.get_pressed()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            raise SystemExit
-        if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-            for planet in planetGroup:
-                planet.move(-speed,0)
-        if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-            for planet in planetGroup:
-                planet.move(speed,0)
-        if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-            for planet in planetGroup:
-                planet.move(0,-speed)
-        if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-            for planet in planetGroup:
-                planet.move(0,speed)
-        if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
-            playing = False
-    screen.blit(background, (0, 0))
-    planetGroup.draw(screen)
-    # update display
-    pygame.display.flip()
+##### WORKING: MOVING PLANETS WITH ARROW KEYS BELOW
+# ''' pygame_sprite_keys1.py
+# move a sprite rect with the arrow keys
+# see also ...
+# http://www.pygame.org/docs/ref/sprite.html
+# http://www.pygame.org/docs/ref/time.html
+# '''
+# 
+# import pygame as pygame
+# import sys
+# from pygame.locals import *
+# import random
+# 
+# speed = 5
+# 
+# pygame.init()
+# width = 640
+# height = 480
+# screen = pygame.display.set_mode((width, height))
+# pygame.display.set_caption("move with arrow keys (escape key to exit)")
+# 
+# # color (r, g, b) tuple, values 0 to 255
+# white = (255, 255, 255)
+# background = pygame.Surface(screen.get_size())
+# background.fill(white)
+# 
+# class Planet(pygame.sprite.Sprite):
+# 
+#     def __init__(self, xPosition, yPosition):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image = pygame.image.load('img/planet1.png').convert_alpha()
+#         self.rect = self.image.get_rect()
+#         self.rect.centerx = xPosition
+#         self.rect.centery = yPosition
+#     def move(self, xMove,yMove):
+#         self.rect.centerx = self.rect.centerx + xMove
+#         self.rect.centery = self.rect.centery + yMove
+# 
+# planet1 = Planet(random.randrange(0,width),random.randrange(0,height))
+# planet2 = Planet(random.randrange(0,width),random.randrange(0,height))
+# planetGroup = pygame.sprite.Group()
+# planetGroup.add((planet1, planet2))
+# 
+# clock = pygame.time.Clock()
+# while 1:
+#     # limit runtime speed to 30 frames/second
+#     clock.tick(30)
+#     keyinput = pygame.key.get_pressed()
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             raise SystemExit
+#         if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
+#             for planet in planetGroup:
+#                 planet.move(-speed,0)
+#         if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
+#             for planet in planetGroup:
+#                 planet.move(speed,0)
+#         if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
+#             for planet in planetGroup:
+#                 planet.move(0,-speed)
+#         if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
+#             for planet in planetGroup:
+#                 planet.move(0,speed)
+#         if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
+#             playing = False
+#     screen.blit(background, (0, 0))
+#     planetGroup.draw(screen)
+#     # update display
+#     pygame.display.flip()

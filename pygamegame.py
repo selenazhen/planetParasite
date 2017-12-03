@@ -6,10 +6,7 @@ import pygame
 import sys
 import random
 from pygame.locals import *
-
-CHARCOAL = (31,31,31)
-WHITE = (255,255,255)
-BLACK = (0,0,0)
+from gVariables import *
 
 class PygameGame(object):
 
@@ -47,15 +44,15 @@ class PygameGame(object):
         self.margin= self.width//8
         self.fps = fps
         self.title = title
-        self.parasiteX = self.width//2
-        self.parasiteY = self.height//2
-        self.speed = 25
         self.score = 0
         self.totalSeconds = 0
         self.frameCount = 0
         self.frameRate = 60
         self.startTime = 90
         self.speed = 15
+        self.borderX0 = -self.width
+        self.borderY0 = -self.height
+        self.collisions = 0
         pygame.init()
 
     def run(self):
@@ -81,29 +78,32 @@ class PygameGame(object):
                     pygame.quit()
                     raise SystemExit
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    print ('left key')
-                    for planet in self.planetGroup:
-                        planet.move(-self.speed,0)
-                if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    print ('right key')
+                    # print ('left key')
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)
-                if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    print ('up key')
+                    self.borderX0 = self.borderX0 + self.speed
+                if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
+                    # print ('right key')
                     for planet in self.planetGroup:
-                        planet.move(0,-self.speed)
-                if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    print ('down key')
+                        planet.move(-self.speed,0)
+                    self.borderX0 = self.borderX0 - self.speed
+                if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
+                    # print ('up key')
                     for planet in self.planetGroup:
                         planet.move(0,self.speed)
+                    self.borderY0 = self.borderY0 + self.speed
+                if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
+                    # print ('down key')
+                    for planet in self.planetGroup:
+                        planet.move(0,-self.speed)
+                    self.borderY0 = self.borderY0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
             
             screen.fill(CHARCOAL)
             self.redrawAll(screen)
-        
             basicfont = pygame.font.Font("DINPro.otf", 20)
-            
+
             # --- Timer going up ---
             # Calculate total seconds
             self.totalSeconds = self.frameCount // self.frameRate
