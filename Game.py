@@ -6,6 +6,7 @@ from Planet import Planet
 from Parasite import Parasite
 from Tentacles import Tentacles
 from Inhabited import Inhabited
+from Star import Star
 
 from gVariables import *
 
@@ -27,7 +28,13 @@ class Game(PygameGame):
         
         self.inhabitedGroup = pygame.sprite.Group()
         
+        self.starGroup = pygame.sprite.Group()
         
+        #add static stars
+        for point in range(100):
+            starNew = Star()
+            self.starGroup.add(starNew)
+            
     def keyPressed(self, code, mod):
         pass
         
@@ -43,7 +50,6 @@ class Game(PygameGame):
         textTitle = basicfont.render("planet parasite", True, WHITE)
         textTitlerect = textTitle.get_rect()
         textTitlerect.centerx,textTitlerect.centery = w//2, (m//2)
-        
         
         #add uninhabited planets
         if self.frameCount % 50 == 0:
@@ -75,7 +81,7 @@ class Game(PygameGame):
         # tentaclesNew = Tentacles()
         # self.tentacles.add(tentaclesNew)
         
-        if self.frameCount % 20 == 0: #inhabited planets get larger and larger as time goes on
+        if self.frameCount % 10 == 0: #inhabited planets get larger and larger as time goes on
             for inhabited in self.inhabitedGroup:
                 #if inhabited planet gets larger than a certain size
                 if (inhabited.inhabitedSize >= .2*min(inhabited.imageX,inhabited.imageY)) or(
@@ -87,15 +93,16 @@ class Game(PygameGame):
                 else:
                     inhabited.update()
         
+        
+        self.starGroup.draw(screen)
         self.planetGroup.draw(screen)
+        self.inhabitedGroup.draw(screen)
         self.parasite.draw(screen)
         self.tentacles.draw(screen)
-        self.inhabitedGroup.draw(screen)
-        
-        # pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
-        # pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
-        # pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
+        pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
+        pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect
+        pygame.draw.rect(screen, CHARCOAL,(w-m, 0, m, h)) #border top rect
+        pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
         
         pygame.draw.rect(screen, WHITE,(m,m, w-(2*m),h-(2*m)), 2) #border
         screen.blit(textScore, textScorerect)
