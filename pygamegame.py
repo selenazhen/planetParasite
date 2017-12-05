@@ -56,12 +56,13 @@ class PygameGame(object):
         self.borderY0 = -self.height
         self.collisions = 0
         self.keyCont = False
+        self.lives = 3
         pygame.init()
 
     def run(self):
         clock = pygame.time.Clock()
         w,h,m = self.width,self.height,self.margin
-        screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
         pygame.display.set_caption(self.title)
 
@@ -81,40 +82,44 @@ class PygameGame(object):
                     pygame.quit()
                     raise SystemExit
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
-                    # print ('left key')
                     # for tentacle in self.tentacles:
                     #     tentacle.move(10)
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)
                     for inhabited in self.inhabitedGroup:
                         inhabited.move(self.speed,0)
+                    for inhabited in self.formedInhabitedGroup:
+                        inhabited.move(self.speed,0)
                     # self.borderX0 = self.borderX0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
-                    # print ('right key')
                     for planet in self.planetGroup:
                         planet.move(-self.speed,0)
                     for inhabited in self.inhabitedGroup:
                         inhabited.move(-self.speed,0)
+                    for inhabited in self.formedInhabitedGroup:
+                        inhabited.move(-self.speed,0)
                     # self.borderX0 = self.borderX0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
-                    # print ('up key')
                     for planet in self.planetGroup:
                         planet.move(0,self.speed)
                     for inhabited in self.inhabitedGroup:
                         inhabited.move(0,self.speed)
+                    for inhabited in self.formedInhabitedGroup:
+                        inhabited.move(0,self.speed)
                     # self.borderY0 = self.borderY0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
-                    # print ('down key')
                     for planet in self.planetGroup:
                         planet.move(0,-self.speed)
                     for inhabited in self.inhabitedGroup:
+                        inhabited.move(0,-self.speed)
+                    for inhabited in self.formedInhabitedGroup:
                         inhabited.move(0,-self.speed)
                     # self.borderY0 = self.borderY0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
             
-            screen.fill(self.bgColor)
-            self.redrawAll(screen)
+            
+            self.redrawAll(self.screen)
             
 
             basicfont = pygame.font.Font("DINPro.otf", 20)

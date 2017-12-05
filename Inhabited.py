@@ -22,16 +22,16 @@ class Inhabited(pygame.sprite.Sprite):
         # posX = random.randrange(0,2*screenWidth)
         # posY = random.randrange(0,2*screenHeight)
         #find location of image surface
-        self.imageX = posX+planetSize*2
-        self.imageY = posY+planetSize*2
+        self.imageX = posX+planetSize*4
+        self.imageY = posY+planetSize*4
         self.image = pygame.Surface((self.imageX,self.imageY),pygame.SRCALPHA) #self.imageX and self.imageY = width and height
-        self.coordsX = self.imageX//2 #keep circle centered on middle of image surface, regardless of image surface size
-        self.color = WHITE
+        # keep circle centered on middle of image surface, regardless of image surface size
+        self.coordsX = self.imageX//2
         self.coordsY = self.imageY//2
+        self.color = WHITE
         self.rect = self.image.get_rect()
         self.radius = .5*parasiteSize*2
         self.inhabitedSize = planetSize
-        
         # pygame.draw.circle(self.image, self.color,(self.coordsX,self.coordsY),
         #                     self.inhabitedSize)
         self.divisions = 100
@@ -42,10 +42,11 @@ class Inhabited(pygame.sprite.Sprite):
         self.rect.centery = self.rect.centery + yMove
     
     def dotted(self):
-        if self.radius > self.imageX:
-            self.radius = self.imageX//2
-        if self.radius > self.imageY:
-            self.radius = self.imageY//2
+        # if self.radius > self.imageX:
+        #     self.radius = self.imageX//2
+        # if self.radius > self.imageY:
+        #     self.radius = self.imageY//2
+        self.radius = self.inhabitedSize*2
         for div in range(self.divisions):
             # self.length = random.randrange(25,40)
             divAngle = div*((math.pi*2)/self.divisions)
@@ -55,11 +56,11 @@ class Inhabited(pygame.sprite.Sprite):
             innerDivY = self.coordsY + ((self.radius) * math.sin(divAngle))
             pygame.draw.line(self.image,self.color,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
     
-    def stopUpdating(self):
-        self.inhabitedSize = int(.5*parasiteSize)
-        self.inhabitedSize += 1
-        pygame.draw.circle(self.image, self.color,(self.coordsX,self.coordsY),
-                            self.inhabitedSize)
+    def stopUpdating(self,newColor):
+        # self.inhabitedSize = int(.5*parasiteSize)
+        #draw filled circle over previous circle
+        pygame.draw.circle(self.image, newColor,(self.coordsX,self.coordsY),
+                            self.inhabitedSize+5)
         
     def update(self):
         self.inhabitedSize += 1
