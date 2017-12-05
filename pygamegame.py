@@ -7,6 +7,7 @@ import sys
 import random
 from pygame.locals import *
 from gVariables import *
+from Tentacles import Tentacles
 
 class PygameGame(object):
 
@@ -81,29 +82,41 @@ class PygameGame(object):
                     raise SystemExit
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     # print ('left key')
+                    # for tentacle in self.tentacles:
+                    #     tentacle.move(10)
                     for planet in self.planetGroup:
                         planet.move(self.speed,0)
+                    for inhabited in self.inhabitedGroup:
+                        inhabited.move(self.speed,0)
                     # self.borderX0 = self.borderX0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     # print ('right key')
                     for planet in self.planetGroup:
                         planet.move(-self.speed,0)
+                    for inhabited in self.inhabitedGroup:
+                        inhabited.move(-self.speed,0)
                     # self.borderX0 = self.borderX0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
                     # print ('up key')
                     for planet in self.planetGroup:
                         planet.move(0,self.speed)
+                    for inhabited in self.inhabitedGroup:
+                        inhabited.move(0,self.speed)
                     # self.borderY0 = self.borderY0 + self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_DOWN):
                     # print ('down key')
                     for planet in self.planetGroup:
                         planet.move(0,-self.speed)
+                    for inhabited in self.inhabitedGroup:
+                        inhabited.move(0,-self.speed)
                     # self.borderY0 = self.borderY0 - self.speed
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     playing = False
             
             screen.fill(self.bgColor)
             self.redrawAll(screen)
+            
+
             basicfont = pygame.font.Font("DINPro.otf", 20)
 
             # --- Timer going up ---

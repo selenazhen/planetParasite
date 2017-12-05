@@ -2,7 +2,7 @@
 15112 F17 Term Project
 
 
-To run, run Game.py
+To run planet parasite, run file Game.py
 
 Selena Zhen (szhen)
 
