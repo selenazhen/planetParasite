@@ -17,7 +17,7 @@ class Parasite(pygame.sprite.Sprite):
         self.coordsX = screenWidth//2
         self.coordsY = screenHeight//2
         self.radius = parasiteSize
-        self.rect = self.image.get_rect()    
+        self.rect = self.image.get_rect()  
         # pygame.draw.circle(self.image, PINK, self.rect.center, self.radius)
         # pygame.draw.circle(self.image, CHARCOAL,(screenWidth//2,screenHeight//2),
         #                     self.radius)
@@ -25,3 +25,7 @@ class Parasite(pygame.sprite.Sprite):
                             parasiteSize, 5)
     def update(self, tentacleRadius):
         self.radius = parasiteSize + tentacleRadius
+        
+    def move(self, xMove,yMove):
+        self.rect.centerx = self.rect.centerx + xMove
+        self.rect.centery = self.rect.centery + yMove
