@@ -17,8 +17,8 @@ class Inhabited(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         #randomize position with posX and posY
-        posX = random.randrange(300,2*screenWidth)
-        posY = random.randrange(300,2*screenHeight)
+        posX = random.randrange(250,2*screenWidth)
+        posY = random.randrange(250,2*screenHeight)
         # posX = random.randrange(0,2*screenWidth)
         # posY = random.randrange(0,2*screenHeight)
         #find location of image surface
@@ -42,10 +42,6 @@ class Inhabited(pygame.sprite.Sprite):
         self.rect.centery = self.rect.centery + yMove
     
     def dotted(self):
-        # if self.radius > self.imageX:
-        #     self.radius = self.imageX//2
-        # if self.radius > self.imageY:
-        #     self.radius = self.imageY//2
         self.radius = self.inhabitedSize*2
         for div in range(self.divisions):
             # self.length = random.randrange(25,40)

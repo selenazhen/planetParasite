@@ -7,7 +7,7 @@ import sys
 import random
 from pygame.locals import *
 from gVariables import *
-from Tentacles import Tentacles
+from Tentacles import Tentacle
 
 class PygameGame(object):
 
@@ -42,6 +42,7 @@ class PygameGame(object):
 
     def __init__(self, width=screenWidth, height=screenHeight, fps=50, title="PLANET PARASITE"):
         self.width, self.height = width, height
+        self.playing = False
         self.margin= self.width//10
         self.fps = fps
         self.title = title
@@ -56,7 +57,8 @@ class PygameGame(object):
         self.borderY0 = -self.height
         self.collisions = 0
         self.keyCont = False
-        self.lives = 3
+        self.lives = 5
+        
         pygame.init()
 
     def run(self):
@@ -71,12 +73,12 @@ class PygameGame(object):
 
         # call game-specific initialization
         self.init()
-        playing = True
+        self.playing = True
         
         left = False
         right = False
         
-        while playing:
+        while self.playing:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
