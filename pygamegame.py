@@ -38,6 +38,9 @@ class PygameGame(object):
     
     def drawSplash(self, screen):
         pass
+    
+    def drawInstructions(self,screen):
+        pass
         
     def __init__(self, width=screenWidth, height=screenHeight, fps=60, title="PLANET PARASITE"):
         self.width, self.height = width, height
@@ -56,8 +59,11 @@ class PygameGame(object):
         self.hSpeed = 0 #acceleration horizontally
         self.vSpeed = 0 #acceleration vertically
         self.gamePlay = False
+        self.instructions = False
+        self.instructionsPage = 1
         self.tw = self.width
         self.th = self.height
+        
         pygame.init()
 
     def run(self):
@@ -83,10 +89,14 @@ class PygameGame(object):
                     raise SystemExit
                 if (event.type == pygame.KEYDOWN) and (event.key == K_LEFT):
                     left = True
+                    if self.instructions == True:
+                        self.instructionsPage -= 1
                 if (event.type == pygame.KEYUP) and (event.key == K_LEFT):
                     left = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
                     right = True
+                    if self.instructions == True:
+                        self.instructionsPage += 1
                 if (event.type == pygame.KEYUP) and (event.key == K_RIGHT):
                     right = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_UP):
@@ -102,9 +112,16 @@ class PygameGame(object):
                     print ('gameplay on')
                 if (event.type == pygame.KEYDOWN) and (event.key == K_0):
                     self.gamePlay = False
+                    self.instructions = False
+                    print ('gameplay off')
+                if (event.type == pygame.KEYDOWN) and (event.key == K_h):
+                    self.gamePlay = False
+                    self.instructionsPage = 1 #reset instruction page to 1
+                    self.instructions = True
+                    
                     print ('gameplay off')
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
-                    playing = False
+                    self.playing = False
             
             if left and self.hSpeed < self.speed:
                 self.hSpeed += 1
@@ -114,15 +131,8 @@ class PygameGame(object):
                 self.vSpeed += 1
             if down and self.vSpeed > (-1*self.speed): 
                 self.vSpeed -= 1
-            
-
-            
-            # self.titleTextRect.centerx += self.hSpeed
-            # self.titleTextRect.centery += self.vSpeed
-            
-            
-            if self.gamePlay:
-                print ('gameplay on')
+                
+            if self.gamePlay: #if game is on
                 self.drawGame(self.screen)
                 for planet in self.planetGroup:
                     planet.move(self.hSpeed,self.vSpeed)
@@ -132,11 +142,15 @@ class PygameGame(object):
                     inhabited.move(self.hSpeed,self.vSpeed)
                 for parasite in self.parasiteTitle:
                     parasite.move(self.hSpeed,self.vSpeed)
-            if not self.gamePlay:
-                print ('splashscreen on')
+                    
+            if not self.gamePlay and not self.instructions: #if splash screen on
                 self.drawSplash(self.screen)
                 self.th -= self.vSpeed
                 self.tw -= self.hSpeed
+                
+            if not self.gamePlay and self.instructions: #if splash screen on
+                self.drawInstructions(self.screen)
+                
 
             basicfont = pygame.font.Font("DINPro.otf", 20)
 
