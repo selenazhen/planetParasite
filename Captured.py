@@ -15,8 +15,8 @@ class Captured(pygame.sprite.Sprite):
     def __init__(self,cx,cy):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((screenWidth,screenHeight),pygame.SRCALPHA)
-        self.coordsX = screenWidth//2 #keep circle centered on middle of image surface
-        self.coordsY = screenHeight//2
+        self.coordsX = cx #keep circle centered on middle of image surface
+        self.coordsY = cy
         self.rect = self.image.get_rect()
         self.radius = planetSize
         self.speed = -2
@@ -25,9 +25,9 @@ class Captured(pygame.sprite.Sprite):
         return random.randrange(3, 10)
         
     def update(self):
-        self.coordsX += self.speed
-        self.coordsY += self.speed
-        pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
-                            planetSize+2)   
+        # self.coordsX += self.speed
+        # self.coordsY += self.speed
+        # pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
+        #                     planetSize+3)   
         pygame.draw.circle(self.image, PINK,(self.coordsX,self.coordsY),
                             planetSize, 2)

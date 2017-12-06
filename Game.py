@@ -45,6 +45,10 @@ class Game(PygameGame):
         self.tentaclesMax = 45
         
         self.capturedGroup = pygame.sprite.Group()
+        
+        parasiteNew = Parasite() 
+        self.parasite.add(parasiteNew)
+        
     def keyPressed(self, code, mod):
         pass
         
@@ -62,38 +66,35 @@ class Game(PygameGame):
         textTitlerect = textTitle.get_rect()
         textTitlerect.centerx,textTitlerect.centery = w//2, (m//2)
         
-        #add uninhabited planets
-        if self.frameCount % 30 == 0:
+        #add inhabited planets
+        if self.frameCount % 60 == 0:
             inhabitedNew = Inhabited()
             self.inhabitedGroup.add(inhabitedNew)
             print ('new uninhabited')
         
-        #bounding box 
-        # pygame.draw.rect(screen, WHITE,(self.borderX0, self.borderY0, self.width*3, self.height*3),2) 
-        
         #add a planet every so often
-        if self.frameCount % 30 == 0: 
+        if self.frameCount % 60 == 0: 
             planet = Planet()
             self.planetGroup.add(planet)
             print ('new planet')
-            
+        
         for parasite in self.parasite:
             collisionPlanetsList = pygame.sprite.spritecollide(parasite,self.planetGroup,  False, 
                             pygame.sprite.collide_circle)
             for capturedPlanet in collisionPlanetsList:
                 self.planetGroup.remove(capturedPlanet)
                 self.score += 10
-                capturedNew = Captured(self.width//2,self.height//2)
+                capturedNew = Captured(self.width//2+random.randrange(-(parasiteSize-(1.5*planetSize)),(parasiteSize-(1.5*planetSize))),self.height//2+random.randrange(-(parasiteSize-(1.5*planetSize)),(parasiteSize-(1.5*planetSize))))
                 self.capturedGroup.add(capturedNew)
             collisionInhabitedList = pygame.sprite.spritecollide(parasite,self.formedInhabitedGroup,  False, 
                             pygame.sprite.collide_circle)
             for hitInhabited in collisionInhabitedList:
                 hitInhabited.stopUpdating(PINK) #turn the hit inhabited planet pink for right now 
-                # self.formedInhabitedGroup.remove(hitInhabited) #remove inhabited if you want to
+                self.formedInhabitedGroup.remove(hitInhabited) #remove inhabited 
                 self.lives -= 1
-            
+                # self.formedInhabitedGroup.add(hitInhabited)
         
-        #change length of tentacles based on lives
+        # change length of tentacles based on lives
         if self.lives == 4:
             self.tentaclesMin = 25
             self.tentaclesMax = 35
@@ -108,10 +109,7 @@ class Game(PygameGame):
             self.tentaclesMax = 5
         if self.lives == 1:
             self.playing = False
-        
-        # tentacleGroupNew = Tentacles()
-        # self.tentacleGroup.add(tentacleGroupNew)
-        
+
         # if self.frameCount % 1 == 0: #inhabited planets get larger and larger as time goes on
         for inhabited in self.inhabitedGroup:
             #if inhabited planet gets larger than a certain size
@@ -123,42 +121,30 @@ class Game(PygameGame):
             else:
                 inhabited.update()
         
-        # self.capturedGroup.update()
-        # for captured in self.capturedGroup:
-        #     # captured.update()
-        #     # captured.coordsX = captured.coordsX + captured.speed
-        #     # captured.coordsY = captured.coordsY + captured.speed
-        #     # if coordsX and coordsY are at the length of the radius of parasite
-        #     # print (captured.coordsX,captured.coordsY)
-        #     angle = math.atan(captured.coordsY/captured.coordsX)
-        #     if captured.speed > 0:
-        #         length = (captured.coordsY-self.height//2)/math.sin(angle)
-        #         if (length >= parasiteSize-(1.5*planetSize)):
-        #             print ('its longer')
-        #             captured.speed *= -1
-        #     elif captured.speed < 0:
-        #         length = (self.height//2-captured.coordsY)/math.sin(angle)
-        #         if (length >= parasiteSize-(1.5*planetSize)):
-        #             print ('its longer')
-        #             captured.speed *= -1
-        #     print (angle,length)
-        
+        self.capturedGroup.update()
+        for captured in self.capturedGroup:
+            angle = math.atan(captured.coordsY/captured.coordsX)
+            if captured.speed > 0:
+                length = (captured.coordsY-self.height//2)/math.sin(angle)
+                if (length >= parasiteSize-(1.5*planetSize)):
+                    
+                    captured.speed *= -1
+            elif captured.speed < 0:
+                length = (self.height//2-captured.coordsY)/math.sin(angle)
+                if (length >= parasiteSize-(1.5*planetSize)):
+                    
+                    captured.speed *= -1
             
-        
-        parasiteNew = Parasite() 
-        self.parasite.add(parasiteNew)
-        
-        
         self.parasite.update(self.tentaclesMax-7) #reduce radius by a few pixels to get make appearance better
         
         self.capturedGroup.draw(screen)
         self.planetGroup.draw(screen)
         self.inhabitedGroup.draw(screen)
         self.formedInhabitedGroup.draw(screen)
+        
         self.parasite.draw(screen)
         
-        # self.tentacleGroup.draw(screen)
-        self.starGroup.draw(screen)
+        # self.starGroup.draw(screen) #TOO SLOW 
         
         for div in range(self.divisions):
             divAngle = div*((math.pi*2)/self.divisions)
@@ -182,6 +168,3 @@ class Game(PygameGame):
         
 
 Game(screenWidth, screenHeight).run()
-
-
-
