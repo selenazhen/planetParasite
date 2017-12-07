@@ -17,7 +17,7 @@ class Parasite(pygame.sprite.Sprite):
         self.coordsX = screenWidth//2
         self.coordsY = screenHeight//2
         self.radius = parasiteSize
-        self.rect = self.image.get_rect()  
+        self.rect = self.image.get_rect()
         # pygame.draw.circle(self.image, PINK, self.rect.center, self.radius)
         # pygame.draw.circle(self.image, CHARCOAL,(screenWidth//2,screenHeight//2),
         #                     self.radius)

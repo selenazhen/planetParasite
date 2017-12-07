@@ -13,12 +13,15 @@ from gVariables import *
 class Inhabited(pygame.sprite.Sprite):
 
 
-    def __init__(self):
+    def __init__(self,cx,cy):
         pygame.sprite.Sprite.__init__(self)
-        
-        #randomize position with posX and posY
-        posX = random.randrange(250,2*screenWidth)
-        posY = random.randrange(250,2*screenHeight)
+        #randomize position with posX and posY if specific location is not given
+        if cx == 0 and cy == 0: 
+            posX = random.randrange(250,2*screenWidth)
+            posY = random.randrange(250,2*screenHeight)
+        else: 
+            posX = cx
+            posY = cy
         # posX = random.randrange(0,2*screenWidth)
         # posY = random.randrange(0,2*screenHeight)
         #find location of image surface
@@ -30,8 +33,10 @@ class Inhabited(pygame.sprite.Sprite):
         self.coordsY = self.imageY//2
         self.color = WHITE
         self.rect = self.image.get_rect()
-        self.radius = .5*parasiteSize*2
         self.inhabitedSize = planetSize
+        self.radius = self.inhabitedSize
+        # self.radius = .5*parasiteSize*2
+        
         # pygame.draw.circle(self.image, self.color,(self.coordsX,self.coordsY),
         #                     self.inhabitedSize)
         self.divisions = 100

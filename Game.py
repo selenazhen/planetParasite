@@ -14,8 +14,9 @@ from gVariables import *
 '''
 Game.py
 Actually implements the game
-edit redraw all here
+edit drawing functions here
 '''
+
 
 class Game(PygameGame):
     def init(self):
@@ -28,7 +29,7 @@ class Game(PygameGame):
         self.titleGroup = pygame.sprite.Group()
         self.parasiteTitle = pygame.sprite.Group()
         # self.tentacleGroup = pygame.sprite.Group()
-        self.instructionGroup = pygame.sprite.Group()
+        self.instructionsInhabited = pygame.sprite.Group()
         
         self.starList = []
         
@@ -52,37 +53,58 @@ class Game(PygameGame):
         titleNew = Title()
         self.titleGroup.add(titleNew)
         
-        instructionsNew = Instructions()
-        self.instructionGroup.add(instructionsNew)
+        inhabitedTitleNew = Inhabited((self.width//20)*27,(self.height//10)*15)
+        self.instructionsInhabited.add(inhabitedTitleNew)
+        self.formed = False
         
     def drawInstructions(self,screen):
         print ('drawinstructions screen is on')
         self.screen.fill(self.bgColor)
         w,h,m = self.width,self.height,self.margin
         
-        print (self.instructionsPage)
         if self.instructionsPage == 1:
             titleFont = pygame.font.Font("DINPro.otf", 30)
             titleText = titleFont.render('how to play', True, WHITE)
             titleRect = titleText.get_rect()
             titleRect.centerx = self.width//2
-            titleRect.centery = (self.height//10)*1
+            titleRect.centery = (self.height//20)*2
             
-            parasiteFont = pygame.font.Font("DINPro.otf", 22)
-            parasiteText = parasiteFont.render('this is you', True, WHITE)
+            parasiteFont = pygame.font.Font("DINPro.otf", 19)
+            parasiteText = parasiteFont.render("this is you (a parasite)", True, WHITE)
             parasiteRect = parasiteText.get_rect()
-            parasiteRect.left = (self.width//10)*2
-            parasiteRect.centery = (self.height//10)*3
+            parasiteRect.left = (self.width//40)*5
+            parasiteRect.centery = (self.height//20)*6
             
-            planetFont = pygame.font.Font("DINPro.otf", 22)
-            planetText = planetFont.render('these are planets', True, WHITE)
+            planetFont = pygame.font.Font("DINPro.otf", 19)
+            planetText = planetFont.render('these are uninhabited planets', True, WHITE)
             planetRect = planetText.get_rect()
-            planetRect.left = (self.width//10)*2
-            planetRect.centery = (self.height//10)*6
+            planetRect.left = (self.width//40)*5
+            planetRect.centery = (self.height//20)*11
             
+            inhabitedFont = pygame.font.Font("DINPro.otf", 19)
+            if not self.formed:
+                inhabitedText = inhabitedFont.render('this is a developing planet', True, WHITE)
+            if self.formed: 
+                inhabitedText = inhabitedFont.render('this is an inhabited planet', True, WHITE)
+            inhabitedRect = inhabitedText.get_rect()
+            inhabitedRect.left = (self.width//40)*5
+            inhabitedRect.centery = (self.height//20)*16
+        
             
+            if self.frameCount >= 60 and self.frameCount % 3 == 0: #inhabited planets get larger and larger as time goes on
+                for inhabited in self.instructionsInhabited:
+                    #if inhabited planet gets larger than a certain size:
+                    if (inhabited.inhabitedSize >= .06*min(inhabited.imageX,inhabited.imageY)):
+                        inhabited.stopUpdating(WHITE)
+                        inhabited.dotted()
+                        self.formedInhabitedGroup.add(inhabited)
+                        self.instructionsInhabited.remove(inhabited)
+                        self.formed = True
+                    else:
+                        inhabited.update()
+                        
             #draw parasite
-            px = (self.width//10)*7
+            px = (self.width//20)*15
             py = (self.height//10)*3
             pygame.draw.circle(self.screen, WHITE,(px,py), parasiteSize, 5) #draw parasite
             for div in range(self.divisions):
@@ -96,28 +118,64 @@ class Game(PygameGame):
             
             #draw little planets
             pygame.draw.circle(self.screen, WHITE,
-                            ((self.width//60)*40,(self.height//30)*19), 
+                            ((self.width//60)*42,(self.height//30)*17), 
                             planetSize, 2) #draw planet top left
             pygame.draw.circle(self.screen, WHITE,
-                            ((self.width//60)*45,(self.height//30)*18), 
+                            ((self.width//60)*47,(self.height//30)*16), 
                             planetSize, 2) #draw planet top right 
             pygame.draw.circle(self.screen, WHITE,
-                            ((self.width//60)*46,(self.height//30)*20), 
+                            ((self.width//60)*48,(self.height//30)*18), 
                             planetSize, 2) #draw planet
             
             #draw text
+            self.instructionsInhabited.draw(self.screen)
+            self.formedInhabitedGroup.draw(self.screen)
             self.screen.blit(titleText, titleRect)
             self.screen.blit(parasiteText, parasiteRect)
             self.screen.blit(planetText, planetRect)
+            self.screen.blit(inhabitedText, inhabitedRect)
+            
             
         if self.instructionsPage == 2:
             titleFont = pygame.font.Font("DINPro.otf", 30)
-            titleText = titleFont.render('shit', True, WHITE)
+            titleText = titleFont.render('how to play', True, WHITE)
             titleRect = titleText.get_rect()
-            titleRect.centerx = screenWidth//2
-            titleRect.centery = screenHeight//8
+            titleRect.centerx = self.width//2
+            titleRect.centery = (self.height//20)*2
+            
+            parFont = pygame.font.Font("DINPro.otf", 20)
+            
+            text1 = wrapline("capture the uninhabited planets and the developing planets but avoid the fully formed inhabited planets.", parFont, 475)
+            text2 = wrapline("for every time you are caught within the safety zone of an inhabited planet you lose a life and your tentacles shorten.", parFont, 475)
+            text3 = wrapline("look for planets with powerups to help improve your parasitic nature.", parFont, 475)
+            
+            lineSpacing = self.height//30
+            for i in range(len(text1)):
+                parText = parFont.render(text1[i], True, WHITE)
+                parRect = parText.get_rect()
+                parRect.left = (self.width//40)*5
+                parRect.centery = (self.height//40)*8 + (lineSpacing*i)
+                self.screen.blit(parText, parRect)
+            
+            for i in range(len(text2)):
+                parText = parFont.render(text2[i], True, WHITE)
+                parRect = parText.get_rect()
+                parRect.left = (self.width//40)*5
+                parRect.centery = (self.height//40)*12 + (lineSpacing*i)
+                self.screen.blit(parText, parRect)
+                
+            for i in range(len(text3)):
+                parText = parFont.render(text3[i], True, WHITE)
+                parRect = parText.get_rect()
+                parRect.left = (self.width//40)*5
+                parRect.centery = (self.height//40)*17 + (lineSpacing*i)
+                self.screen.blit(parText, parRect)
+            
             self.screen.blit(titleText, titleRect)
-        
+            self.screen.blit(parText, parRect)
+        if self.instructionsPage == 3:
+            self.instructions = False
+
     def drawSplash(self,screen):
         print ('drawsplash screen is on')
         self.screen.fill(self.bgColor)
@@ -126,7 +184,11 @@ class Game(PygameGame):
         for star in self.starList:
             pygame.draw.circle(self.screen, DARKGREY,(star[0],star[1]),2)
             
-        self.titleGroup.draw(screen)
+        nameFont = pygame.font.Font("DINPro.otf", 16)
+        nameText = nameFont.render('by selena zhen', True, WHITE)
+        nameRect = nameText.get_rect()
+        nameRect.centerx = (self.width//2)
+        nameRect.centery = (self.height//20)*18
         
         pygame.draw.circle(self.screen, WHITE,(self.tw//2,self.th//2), parasiteSize, 5) #draw parasite
         for div in range(self.divisions):
@@ -152,9 +214,11 @@ class Game(PygameGame):
             print ('its too far down')
             self.vSpeed *= -1
             
+        self.titleGroup.draw(screen)
+        self.screen.blit(nameText, nameRect)
         
     def drawGame(self, screen):
-        print ('drawgame is on')
+        # print ('drawgame is on')
         self.screen.fill(self.bgColor)
         w,h,m = self.width,self.height,self.margin
         font = pygame.font.Font("DINPro.otf", 20)
@@ -167,30 +231,55 @@ class Game(PygameGame):
         
         #add inhabited planets
         if self.frameCount % 60 == 0:
-            inhabitedNew = Inhabited()
+            inhabitedNew = Inhabited(0,0)
             self.inhabitedGroup.add(inhabitedNew)
-            print ('new uninhabited')
+            # print ('new uninhabited')
         
         #add a planet every so often
         if self.frameCount % 60 == 0: 
             planet = Planet()
             self.planetGroup.add(planet)
-            print ('new planet')
+            # print ('new planet')
+        
+        #attack stuff here
+        print (self.attackMeter)
+        if self.attack:
+            self.tentacleColor = RED
+            self.attackMeter -= 2 #reduce attacklevel faster
+        if not self.attack:
+            self.tentacleColor = WHITE
+            if self.frameCount % 20 == 0:
+                self.attackMeter += 1 #regain attack level slowly
+            self.attackMeter = min(self.attackMeter,100)
+        aX = self.width//20
+        aY = self.height//2
+        pygame.draw.line(self.screen,self.tentacleColor,(aX,aY), 
+                        (aX, aY - (1.5*self.attackMeter)), 10)
         
         for parasite in self.parasite:
-            collisionPlanetsList = pygame.sprite.spritecollide(parasite,self.planetGroup,  False, 
-                            pygame.sprite.collide_circle)
-            for capturedPlanet in collisionPlanetsList:
-                self.planetGroup.remove(capturedPlanet)
-                self.score += 10
-                capturedNew = Captured(w//2+random.randrange(-(parasiteSize-(1.5*planetSize)),(parasiteSize-(1.5*planetSize))),h//2+random.randrange(-(parasiteSize-(1.5*planetSize)),(parasiteSize-(1.5*planetSize))))
-                self.capturedGroup.add(capturedNew)
-            collisionInhabitedList = pygame.sprite.spritecollide(parasite,self.formedInhabitedGroup,  False, 
-                            pygame.sprite.collide_circle)
-            for hitInhabited in collisionInhabitedList:
-                hitInhabited.stopUpdating(PINK) #turn the hit inhabited planet pink for right now 
-                self.formedInhabitedGroup.remove(hitInhabited) #remove inhabited 
-                self.lives -= 1
+            if self.attack:
+                collisionAttackList = pygame.sprite.spritecollide(parasite,self.inhabitedGroup,  False, 
+                                pygame.sprite.collide_circle)
+                for attacked in collisionAttackList:
+                    self.inhabitedGroup.remove(attacked)
+                
+            if not self.attack:
+                collisionPlanetsList = pygame.sprite.spritecollide(parasite,self.planetGroup,  False, 
+                                pygame.sprite.collide_circle)
+                for capturedPlanet in collisionPlanetsList:
+                    self.planetGroup.remove(capturedPlanet)
+                    self.score += 10
+                    capturedNew = Captured(w//2+random.randrange(-(parasiteSize-(1.5*planetSize)),
+                                (parasiteSize-(1.5*planetSize))),
+                                h//2+random.randrange(-(parasiteSize-(1.5*planetSize)),
+                                (parasiteSize-(1.5*planetSize))))
+                    self.capturedGroup.add(capturedNew)
+                collisionInhabitedList = pygame.sprite.spritecollide(parasite,self.formedInhabitedGroup,  False, 
+                                pygame.sprite.collide_circle)
+                for hitInhabited in collisionInhabitedList:
+                    hitInhabited.stopUpdating(PINK) #turn the hit inhabited planet pink for right now 
+                    self.formedInhabitedGroup.remove(hitInhabited) #remove inhabited 
+                    self.lives -= 1
         
         # change length of tentacles based on lives
         if self.lives == 4:
@@ -237,15 +326,15 @@ class Game(PygameGame):
             
         self.parasite.update(self.tentaclesMax-7) #reduce radius by a few pixels to get make appearance better
         
+        for star in self.starList:
+            pygame.draw.circle(self.screen, DARKGREY,(star[0],star[1]),2)
+        
         #DRAW STATEMENTS
         self.capturedGroup.draw(screen)
         self.planetGroup.draw(screen)
         self.inhabitedGroup.draw(screen)
         self.formedInhabitedGroup.draw(screen)
         self.parasite.draw(screen)
-        
-        for star in self.starList:
-            pygame.draw.circle(self.screen, DARKGREY,(star[0],star[1]),2)
         
         for div in range(self.divisions):
             divAngle = div*((math.pi*2)/self.divisions)
@@ -254,9 +343,7 @@ class Game(PygameGame):
             outerDivY = h//2 + ((parasiteSize+self.length) * math.sin(divAngle))
             innerDivX = w//2 + ((parasiteSize+6) * math.cos(divAngle))
             innerDivY = h//2 + ((parasiteSize+6) * math.sin(divAngle))
-            pygame.draw.line(self.screen,WHITE,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
-            # tentacleNew = Tentacle(innerDivX,innerDivY,outerDivX,outerDivY)
-            # self.tentacleGroup.add(tentacleNew)
+            pygame.draw.line(self.screen,self.tentacleColor,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
         
         # pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
         # pygame.draw.rect(screen, CHARCOAL,(0, 0, m, h)) #border bottom rect

@@ -63,7 +63,9 @@ class PygameGame(object):
         self.instructionsPage = 1
         self.tw = self.width
         self.th = self.height
-        
+        self.attack = False
+        self.attackMeter = 100
+        self.tentacleColor = WHITE
         pygame.init()
 
     def run(self):
@@ -91,6 +93,7 @@ class PygameGame(object):
                     left = True
                     if self.instructions == True:
                         self.instructionsPage -= 1
+                        self.instructionsPage = max(self.instructionsPage,1)
                 if (event.type == pygame.KEYUP) and (event.key == K_LEFT):
                     left = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
@@ -115,11 +118,18 @@ class PygameGame(object):
                     self.instructions = False
                     print ('gameplay off')
                 if (event.type == pygame.KEYDOWN) and (event.key == K_h):
-                    self.gamePlay = False
-                    self.instructionsPage = 1 #reset instruction page to 1
-                    self.instructions = True
-                    
+                    if not self.gamePlay:
+                        self.instructionsPage = 1 #reset instruction page to 1
+                        self.instructions = True
                     print ('gameplay off')
+                #attack mode
+                if (event.type == pygame.KEYDOWN) and (event.key == K_1):
+                    if self.attackMeter > 0:
+                        self.attack = True
+                    if self.attackMeter <= 0: #attack meter runs out
+                        self.attack = False
+                if (event.type == pygame.KEYUP) and (event.key == K_1):
+                    self.attack = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     self.playing = False
             
