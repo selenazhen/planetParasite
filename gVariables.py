@@ -18,6 +18,7 @@ BLUE = (87,165,238)
 GREEN = (146,206,122)
 
 
+#currently working on instructions and showing upgrades
 
 
 ### wrap line functions

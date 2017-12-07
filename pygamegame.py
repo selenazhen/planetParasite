@@ -55,7 +55,7 @@ class PygameGame(object):
         self.totalSeconds = 0
         self.frameCount = 0
         self.frameRate = 60
-        self.startTime = 90
+        self.startTime = 0
         self.speed = 22
         self.lives = 5
         self.hSpeed = 0 #acceleration horizontally
@@ -77,7 +77,6 @@ class PygameGame(object):
         self.eatMeTenCount = 0
         self.eatMeCurr = 1
         self.eatMeCurrLine = 3
-        
         
         pygame.init()
 
@@ -107,7 +106,7 @@ class PygameGame(object):
                     left = True
                     if self.instructions == True:
                         self.instructionsPage -= 1
-                        self.instructionsPage = max(self.instructionsPage,1)
+                        self.instructionsPage = max(self.instructionsPage,1) #prevent negative pages
                 if (event.type == pygame.KEYUP) and (event.key == K_LEFT):
                     left = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_RIGHT):
@@ -125,17 +124,20 @@ class PygameGame(object):
                 if (event.type == pygame.KEYUP) and (event.key == K_DOWN):
                     down = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_SPACE):
-                    self.gamePlay = True
-                    print ('gameplay on')
-                if (event.type == pygame.KEYDOWN) and (event.key == K_0): #temporary!!!!!
-                    self.gamePlay = False
-                    self.instructions = False
-                    print ('gameplay off')
+                    if not self.instructions and not self.gamePlay:
+                        self.hSpeed = 0
+                        self.vSpeed = 0
+                        self.score = 0
+                        self.lives = 5
+                        self.attackMeter = 100
+                        self.gamePlay = True
+                # if (event.type == pygame.KEYDOWN) and (event.key == K_0): #temporary!!!!!
+                #     self.gamePlay = False
+                #     self.instructions = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_h):
                     if not self.gamePlay:
                         self.instructionsPage = 1 #reset instruction page to 1
                         self.instructions = True
-                    print ('gameplay off')
                 #attack mode
                 if (event.type == pygame.KEYDOWN) and (event.key == K_1): 
                     if self.attackMeter > 0:
@@ -144,7 +146,6 @@ class PygameGame(object):
                         self.attack = False
                 if (event.type == pygame.KEYUP) and (event.key == K_1):
                     self.attack = False
-                    
                 if (event.type == pygame.KEYDOWN) and (event.key == K_2):
                     if self.eatMeCurr == 1 and self.eatMeStop == "collected":
                         self.eatMeStop = "enabled"
@@ -159,7 +160,7 @@ class PygameGame(object):
                     self.eatMeCurr -= 1
                     self.eatMeCurr = max(self.eatMeCurr,1)
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
-                    self.playing = False
+                    self.gamePlay = False
                     
             self.planetGroup.clear(self.screen,clear_callback)
             self.parasite.clear(self.screen,clear_callback)
@@ -195,6 +196,8 @@ class PygameGame(object):
                     eatMeInv.move(self.hSpeed,self.vSpeed)
                 for eatMeTen in self.eatMeTenGroup:
                     eatMeTen.move(self.hSpeed,self.vSpeed)
+                for eatMeLife in self.eatMeLifeGroup:
+                    eatMeLife.move(self.hSpeed,self.vSpeed)
                     
             #if splash screen on
             if not self.gamePlay and not self.instructions:

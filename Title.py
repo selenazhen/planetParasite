@@ -40,12 +40,17 @@ class Title(pygame.sprite.Sprite):
         self.instructRect.centerx = screenWidth//2
         self.instructRect.centery = 3*(screenHeight//4) + 40
         
-        # press s for high scores?
-        
+        # press escape at any time to quit the game
+        quitFont = pygame.font.Font("DINPro.otf", 25)
+        quitText = quitFont.render("press 'escape' during gameplay to quit", True, WHITE)
+        self.quitRect = quitText.get_rect()
+        self.quitRect.centerx = screenWidth//2
+        self.quitRect.centery = 3*(screenHeight//4) + 80
         
         self.image.blit(titleText, self.titleRect)
         self.image.blit(playText, self.playRect)
         self.image.blit(instructText, self.instructRect)
+        self.image.blit(quitText, self.quitRect)
         
     def move(self, xMove,yMove):
         self.rect.centerx = self.rect.centerx + xMove
