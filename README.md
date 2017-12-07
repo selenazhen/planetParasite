@@ -1,5 +1,10 @@
-# planetParasite
+planetParasite
 15112 F17 Term Project
+Section C
+Selena Zhen
+
+
+which describes what the project is at a high level, and explains how to run the project and how to install any needed libraries (if you can include the library in the submission, that is preferred)
 
 
 To run planet parasite, run file Game.py

@@ -35,6 +35,9 @@ class PygameGame(object):
    ##   def timerFired(self, dt):
     #     pass
 
+    def drawEndScreen(self, screen):
+        pass
+
     def drawGame(self, screen):
         pass
     
@@ -57,7 +60,7 @@ class PygameGame(object):
         self.frameRate = 60
         self.startTime = 0
         self.speed = 22
-        self.lives = 5
+        self.lives = 1
         self.hSpeed = 0 #acceleration horizontally
         self.vSpeed = 0 #acceleration vertically
         self.gamePlay = False
@@ -68,7 +71,11 @@ class PygameGame(object):
         self.attack = False
         self.attackMeter = 100
         self.tentacleColor = WHITE
+        self.divisions = 120
+        self.tentaclesMin = 35
+        self.tentaclesMax = 45
         self.parasiteSize = parasiteSize
+        self.highScore = 0
         
         self.eatMeStop = "empty"
         self.eatMeInv = "empty"
@@ -208,7 +215,8 @@ class PygameGame(object):
             #if splash screen on
             if not self.gamePlay and self.instructions: 
                 self.drawInstructions(self.screen)
-                
+                 
+            
             basicfont = pygame.font.Font("DINPro.otf", 20)
             
             self.frameCount += 1
