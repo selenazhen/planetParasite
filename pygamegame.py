@@ -138,9 +138,6 @@ class PygameGame(object):
                         self.lives = 5
                         self.attackMeter = 100
                         self.gamePlay = True
-                # if (event.type == pygame.KEYDOWN) and (event.key == K_0): #temporary!!!!!
-                #     self.gamePlay = False
-                #     self.instructions = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_h):
                     if not self.gamePlay:
                         self.instructionsPage = 1 #reset instruction page to 1

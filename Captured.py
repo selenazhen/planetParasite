@@ -24,10 +24,6 @@ class Captured(pygame.sprite.Sprite):
     def getSpeed(self):
         return random.randrange(3, 10)
         
-    def update(self):
-        # self.coordsX += self.speed
-        # self.coordsY += self.speed
-        # pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
-        #                     planetSize+3)   
+    def update(self):  
         pygame.draw.circle(self.image, PINK,(self.coordsX,self.coordsY),
                             planetSize, 2)

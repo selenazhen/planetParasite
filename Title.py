@@ -2,7 +2,6 @@
 Title.py
 
 implements the Title class
-Lukas Peraza, 2015 for 15-112 Pygame Lecture
 '''
 import pygame
 import random
@@ -17,7 +16,6 @@ class Title(pygame.sprite.Sprite):
         self.coordsY = screenHeight//2
         # self.radius = parasiteSize
         self.rect = self.image.get_rect()  
-        
         
         #planet parasite title
         titleFont = pygame.font.Font("DINPro.otf", 50)

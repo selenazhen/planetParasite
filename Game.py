@@ -150,7 +150,6 @@ class Game(PygameGame):
             
             #draw text
             self.instructionsInhabited.draw(screen)
-            self.formedInhabitedGroup.draw(screen)
             screen.blit(titleText, titleRect)
             screen.blit(parasiteText, parasiteRect)
             screen.blit(planetText, planetRect)
@@ -293,7 +292,7 @@ class Game(PygameGame):
         nameRect.centerx = (self.width//2)
         nameRect.centery = (self.height//20)*18
         
-        highScoreFont = pygame.font.Font("DINPro.otf", 20)
+        highScoreFont = pygame.font.Font("DINPro.otf", 16)
         highScoreText = highScoreFont.render('previous score: %d' % (self.highScore), True, WHITE)
         highScoreRect = highScoreText.get_rect()
         highScoreRect.centerx = (self.width//2)

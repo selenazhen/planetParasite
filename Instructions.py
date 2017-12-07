@@ -2,7 +2,6 @@
 Instructions.py
 
 implements the Instructions class
-Lukas Peraza, 2015 for 15-112 Pygame Lecture
 '''
 import pygame
 import random
@@ -26,7 +25,6 @@ class Instructions(pygame.sprite.Sprite):
         self.titleRect.centery = screenHeight//8
         
         self.image.blit(titleText, self.titleRect)
-        
         
     def move(self, xMove,yMove):
         self.rect.centerx = self.rect.centerx + xMove

@@ -2,16 +2,13 @@
 Inhabited.py
 
 implements the Inhabited class
-Lukas Peraza, 2015 for 15-112 Pygame Lecture
 '''
 import pygame
 import random
 import math
 from gVariables import *
 
-
 class Inhabited(pygame.sprite.Sprite):
-
 
     def __init__(self,cx,cy):
         pygame.sprite.Sprite.__init__(self)
@@ -22,12 +19,10 @@ class Inhabited(pygame.sprite.Sprite):
         else: 
             posX = cx
             posY = cy
-        # posX = random.randrange(0,2*screenWidth)
-        # posY = random.randrange(0,2*screenHeight)
         #find location of image surface
         self.imageX = posX+planetSize*4
         self.imageY = posY+planetSize*4
-        self.image = pygame.Surface((self.imageX,self.imageY),pygame.SRCALPHA) #self.imageX and self.imageY = width and height
+        self.image = pygame.Surface((self.imageX,self.imageY),pygame.SRCALPHA) 
         # keep circle centered on middle of image surface, regardless of image surface size
         self.coordsX = self.imageX//2
         self.coordsY = self.imageY//2
@@ -35,10 +30,6 @@ class Inhabited(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.inhabitedSize = planetSize
         self.radius = self.inhabitedSize
-        # self.radius = .5*parasiteSize*2
-        
-        # pygame.draw.circle(self.image, self.color,(self.coordsX,self.coordsY),
-        #                     self.inhabitedSize)
         self.divisions = 100
         self.length = 0
         
@@ -49,7 +40,6 @@ class Inhabited(pygame.sprite.Sprite):
     def dotted(self):
         self.radius = self.inhabitedSize*2
         for div in range(self.divisions):
-            # self.length = random.randrange(25,40)
             divAngle = div*((math.pi*2)/self.divisions)
             outerDivX = self.coordsX + ((self.radius) * math.cos(divAngle))
             outerDivY = self.coordsY + ((self.radius) * math.sin(divAngle))
@@ -58,8 +48,6 @@ class Inhabited(pygame.sprite.Sprite):
             pygame.draw.line(self.image,self.color,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
     
     def stopUpdating(self,newColor):
-        # self.inhabitedSize = int(.5*parasiteSize)
-        #draw filled circle over previous circle
         pygame.draw.circle(self.image, newColor,(self.coordsX,self.coordsY),
                             self.inhabitedSize+5)
         
@@ -72,8 +60,6 @@ class Inhabited(pygame.sprite.Sprite):
                             self.inhabitedSize, 3)
     
     def small(self):
-        # pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
-        #                     self.radius)
         self.inhabitedSize = planetSize//2
                             
         

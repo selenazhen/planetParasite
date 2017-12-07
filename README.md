@@ -1,15 +1,33 @@
 planetParasite
 15112 F17 Term Project
 Section C
-Selena Zhen
+Selena Zhen (szhen)
 
+------------------------------------------------------------------------------------
 
-which describes what the project is at a high level, and explains how to run the project and how to install any needed libraries (if you can include the library in the submission, that is preferred)
+Install pygame: https://www.pygame.org/wiki/GettingStarted
 
+------------------------------------------------------------------------------------
 
 To run planet parasite, run file Game.py
 
-Selena Zhen (szhen)
+------------------------------------------------------------------------------------
+
+Description:
+    
+Your goal as a parasite is to capture as many uninhabited planets as you can without dying. Developing planets grow with time and randomly erupt into the form of an inhabited planet. For every time you are caught within the safety zone of these inhabited planets (dotted line) you get attacked and lose a life. 
+
+Use the arrow keys to navigate around the parasite around in space, and collect as many uninhabited planets and powerups as you can. Different powerups give the parasite different powers (see below). 
+
+The Parasite also has limited attack mode, which can destroy developing planets before they become inhabited. 
+
+Powerups:
+    - Invincibility: become temporarily immune to all fully formed inhabited planets
+    - Growth: increase your tentacle radius temporarily, regardless of number of remaining lives
+    - Freeze: temporarily freeze all developing inhabited planets
+    - Health: regain a life
+
+------------------------------------------------------------------------------------
 
 Citations: 
 --Pygame Documentation: http://www.pygame.org/news

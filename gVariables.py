@@ -7,18 +7,12 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 DARKGREY = (77,77,77)
 GREY = (99,99,99)
-# RED = (255,0,0)
 RED = (236,64,44)
 PINK = (249,167,167)
 ORANGE = (247,126,74)
-# YELLOW = (255,250,148)
-# YELLOW = (251,232,51)
 YELLOW = (255,214,42)
 BLUE = (87,165,238)
 GREEN = (146,206,122)
-
-
-#currently working on instructions and showing upgrades
 
 
 ### wrap line functions

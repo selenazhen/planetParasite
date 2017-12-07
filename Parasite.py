@@ -8,7 +8,6 @@ import random
 import math
 from gVariables import *
 
-
 class Parasite(pygame.sprite.Sprite):
 
     def __init__(self,size):
@@ -19,11 +18,9 @@ class Parasite(pygame.sprite.Sprite):
         self.size = size
         self.radius = size
         self.rect = self.image.get_rect()
-        # pygame.draw.circle(self.image, PINK, self.rect.center, self.radius)
-        # pygame.draw.circle(self.image, CHARCOAL,(screenWidth//2,screenHeight//2),
-        #                     self.radius)
         pygame.draw.circle(self.image, WHITE,(screenWidth//2,screenHeight//2),
                             size, 5)
+        
     def update(self, tentacleRadius):
         self.radius = self.size + tentacleRadius
         
