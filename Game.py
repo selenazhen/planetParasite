@@ -17,7 +17,6 @@ Actually implements the game
 edit drawing functions here
 '''
 
-
 class Game(PygameGame):
     def init(self):
         self.planetGroup = pygame.sprite.Group()
@@ -43,11 +42,11 @@ class Game(PygameGame):
         self.divisions = 120
         self.tentaclesMin = 35
         self.tentaclesMax = 45
-        
-        parasiteNew = Parasite() 
+    
+        parasiteNew = Parasite(self.parasiteSize) 
         self.parasite.add(parasiteNew)
         
-        parasiteTitleNew = Parasite()
+        parasiteTitleNew = Parasite(self.parasiteSize)
         self.parasiteTitle.add(parasiteTitleNew)
         
         titleNew = Title()
@@ -106,14 +105,14 @@ class Game(PygameGame):
             #draw parasite
             px = (self.width//20)*15
             py = (self.height//10)*3
-            pygame.draw.circle(self.screen, WHITE,(px,py), parasiteSize, 5) #draw parasite
+            pygame.draw.circle(self.screen, WHITE,(px,py), self.parasiteSize, 5) #draw parasite
             for div in range(self.divisions):
                 divAngle = div*((math.pi*2)/self.divisions)
                 self.length = random.randrange(self.tentaclesMin,self.tentaclesMax)
-                outerDivX = px + ((parasiteSize+self.length) * math.cos(divAngle))
-                outerDivY = py + ((parasiteSize+self.length) * math.sin(divAngle))
-                innerDivX = px + ((parasiteSize+6) * math.cos(divAngle))
-                innerDivY = py + ((parasiteSize+6) * math.sin(divAngle))
+                outerDivX = px + ((self.parasiteSize+self.length) * math.cos(divAngle))
+                outerDivY = py + ((self.parasiteSize+self.length) * math.sin(divAngle))
+                innerDivX = px + ((self.parasiteSize+6) * math.cos(divAngle))
+                innerDivY = py + ((self.parasiteSize+6) * math.sin(divAngle))
                 pygame.draw.line(self.screen,WHITE,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
             
             #draw little planets
@@ -135,7 +134,6 @@ class Game(PygameGame):
             self.screen.blit(planetText, planetRect)
             self.screen.blit(inhabitedText, inhabitedRect)
             
-            
         if self.instructionsPage == 2:
             titleFont = pygame.font.Font("DINPro.otf", 30)
             titleText = titleFont.render('how to play', True, WHITE)
@@ -146,7 +144,7 @@ class Game(PygameGame):
             parFont = pygame.font.Font("DINPro.otf", 20)
             
             text1 = wrapline("capture the uninhabited planets and the developing planets but avoid the fully formed inhabited planets.", parFont, 475)
-            text2 = wrapline("for every time you are caught within the safety zone of an inhabited planet you lose a life and your tentacles shorten.", parFont, 475)
+            text2 = wrapline("for every time you are caught within the safety zone of an inhabited planet you lose a life and your tentacles shosrten.", parFont, 475)
             text3 = wrapline("look for planets with powerups to help improve your parasitic nature.", parFont, 475)
             
             lineSpacing = self.height//30
@@ -190,27 +188,27 @@ class Game(PygameGame):
         nameRect.centerx = (self.width//2)
         nameRect.centery = (self.height//20)*18
         
-        pygame.draw.circle(self.screen, WHITE,(self.tw//2,self.th//2), parasiteSize, 5) #draw parasite
+        pygame.draw.circle(self.screen, WHITE,(self.tw//2,self.th//2), self.parasiteSize, 5) #draw parasite
         for div in range(self.divisions):
             divAngle = div*((math.pi*2)/self.divisions)
             self.length = random.randrange(self.tentaclesMin,self.tentaclesMax)
-            outerDivX = self.tw//2 + ((parasiteSize+self.length) * math.cos(divAngle))
-            outerDivY = self.th//2 + ((parasiteSize+self.length) * math.sin(divAngle))
-            innerDivX = self.tw//2 + ((parasiteSize+6) * math.cos(divAngle))
-            innerDivY = self.th//2 + ((parasiteSize+6) * math.sin(divAngle))
+            outerDivX = self.tw//2 + ((self.parasiteSize+self.length) * math.cos(divAngle))
+            outerDivY = self.th//2 + ((self.parasiteSize+self.length) * math.sin(divAngle))
+            innerDivX = self.tw//2 + ((self.parasiteSize+6) * math.cos(divAngle))
+            innerDivY = self.th//2 + ((self.parasiteSize+6) * math.sin(divAngle))
             pygame.draw.line(self.screen,WHITE,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
             
         #bouncing off walls
-        if self.tw + (2*(parasiteSize+self.tentaclesMax)) >= self.width*2:
+        if self.tw + (2*(self.parasiteSize+self.tentaclesMax)) >= self.width*2:
             print ('its too far to the left')
             self.hSpeed *= -1
-        if self.tw - (2*(parasiteSize+self.tentaclesMax)) <= 0:
+        if self.tw - (2*(self.parasiteSize+self.tentaclesMax)) <= 0:
             print ('its too far to the right')
             self.hSpeed *= -1
-        if self.th + (2*(parasiteSize+self.tentaclesMax)) >= self.height*2:
+        if self.th + (2*(self.parasiteSize+self.tentaclesMax)) >= self.height*2:
             print ('its too far up')
             self.vSpeed *= -1
-        if self.th - (2*(parasiteSize+self.tentaclesMax)) <= 0:
+        if self.th - (2*(self.parasiteSize+self.tentaclesMax)) <= 0:
             print ('its too far down')
             self.vSpeed *= -1
             
@@ -241,21 +239,6 @@ class Game(PygameGame):
             self.planetGroup.add(planet)
             # print ('new planet')
         
-        #attack stuff here
-        print (self.attackMeter)
-        if self.attack:
-            self.tentacleColor = RED
-            self.attackMeter -= 2 #reduce attacklevel faster
-        if not self.attack:
-            self.tentacleColor = WHITE
-            if self.frameCount % 20 == 0:
-                self.attackMeter += 1 #regain attack level slowly
-            self.attackMeter = min(self.attackMeter,100)
-        aX = self.width//20
-        aY = self.height//2
-        pygame.draw.line(self.screen,self.tentacleColor,(aX,aY), 
-                        (aX, aY - (1.5*self.attackMeter)), 10)
-        
         for parasite in self.parasite:
             if self.attack:
                 collisionAttackList = pygame.sprite.spritecollide(parasite,self.inhabitedGroup,  False, 
@@ -269,10 +252,10 @@ class Game(PygameGame):
                 for capturedPlanet in collisionPlanetsList:
                     self.planetGroup.remove(capturedPlanet)
                     self.score += 10
-                    capturedNew = Captured(w//2+random.randrange(-(parasiteSize-(1.5*planetSize)),
-                                (parasiteSize-(1.5*planetSize))),
-                                h//2+random.randrange(-(parasiteSize-(1.5*planetSize)),
-                                (parasiteSize-(1.5*planetSize))))
+                    capturedNew = Captured(w//2+random.randrange(-(self.parasiteSize-(1.5*planetSize)),
+                                (self.parasiteSize-(1.5*planetSize))),
+                                h//2+random.randrange(-(self.parasiteSize-(1.5*planetSize)),
+                                (self.parasiteSize-(1.5*planetSize))))
                     self.capturedGroup.add(capturedNew)
                 collisionInhabitedList = pygame.sprite.spritecollide(parasite,self.formedInhabitedGroup,  False, 
                                 pygame.sprite.collide_circle)
@@ -298,51 +281,86 @@ class Game(PygameGame):
             self.tentaclesMin = 999
             self.tentaclesMax = 1000
             self.gamePlay = False
-            
-        if self.frameCount % 5 == 0: #inhabited planets get larger and larger as time goes on
+         
+        # eat me stop growth of developing planets
+        if self.eatMeStop == "collected":
+            print ('eat me is collected')
             for inhabited in self.inhabitedGroup:
-                #if inhabited planet gets larger than a certain size
-                if (inhabited.inhabitedSize >= .15*min(inhabited.imageX,inhabited.imageY)):
-                    inhabited.stopUpdating(WHITE)
-                    inhabited.dotted()
-                    self.formedInhabitedGroup.add(inhabited)
-                    self.inhabitedGroup.remove(inhabited)
-                else:
-                    inhabited.update()
+                self.eatMeStop = "enabled"
+        if self.eatMeStop == "enabled":
+            print ('eat me is enabled')
+            self.eatMeStopCount += 1
+            if self.eatMeStopCount >= 100: #timer ends for eatme powerup
+                self.eatMeStop = "empty"
+                self.eatMeStopCount = 0
+        if self.eatMeStop == "empty":
+            print ('eat me is empty')
+            if self.frameCount % 5 == 0: #inhabited planets get larger and larger as time goes on
+                for inhabited in self.inhabitedGroup:
+                    #if inhabited planet gets larger than a certain size
+                    if (inhabited.inhabitedSize >= .15*min(inhabited.imageX,inhabited.imageY)):
+                        inhabited.stopUpdating(WHITE)
+                        inhabited.dotted()
+                        self.formedInhabitedGroup.add(inhabited)
+                        self.inhabitedGroup.remove(inhabited)
+                    else:
+                        inhabited.update()
         
         self.capturedGroup.update()
         for captured in self.capturedGroup:
             angle = math.atan(captured.coordsY/captured.coordsX)
             if captured.speed > 0:
                 length = (captured.coordsY-h//2)/math.sin(angle)
-                if (length >= parasiteSize-(1.5*planetSize)):
-                    
+                if (length >= self.parasiteSize-(1.5*planetSize)):
                     captured.speed *= -1
             elif captured.speed < 0:
                 length = (h//2-captured.coordsY)/math.sin(angle)
-                if (length >= parasiteSize-(1.5*planetSize)):
-                    
+                if (length >= self.parasiteSize-(1.5*planetSize)):
                     captured.speed *= -1
             
         self.parasite.update(self.tentaclesMax-7) #reduce radius by a few pixels to get make appearance better
         
-        for star in self.starList:
-            pygame.draw.circle(self.screen, DARKGREY,(star[0],star[1]),2)
+        self.inhabitedGroup.draw(screen) #keep this at bottom of draw statements
+
+        #attack stuff here
+        if self.attack:
+            self.tentacleColor = RED
+            self.attackMeter -= 3 #reduce attack level faster
+            if self.attackMeter <= 0:
+                self.attackMeter = 0 #keep attack meter at minimum of 0
+        if not self.attack:
+            self.tentacleColor = WHITE
+            if self.frameCount % 30 == 0:#regain attack level slowly
+                self.attackMeter += 1 
+                self.attackMeter = min(self.attackMeter,100) #keep attackmeter at max of 100
+        aX = self.width//20
+        aY0 = (self.height//7)*4
+        aY1 = self.height//2 - (1.5*self.attackMeter)
+        if self.attackMeter > 0:
+            pygame.draw.line(self.screen,self.tentacleColor,(aX,aY0), 
+                        (aX, aY1), 10)
+        elif self.attackMeter <= 0:
+            pygame.draw.line(self.screen,self.tentacleColor,(aX,aY0), 
+                        (aX, aY0), 10)
+        attackFont = pygame.font.Font("DINPro.otf", 16)
+        attackText = attackFont.render('%d' % (max(self.attackMeter,0)), True, WHITE)
+        attackRect = attackText.get_rect()
+        attackRect.centerx = aX
+        attackRect.centery = aY0 + 15
         
         #DRAW STATEMENTS
-        self.capturedGroup.draw(screen)
+        # self.capturedGroup.draw(screen) #THIS IS MAKING IT SLOW :((((
         self.planetGroup.draw(screen)
-        self.inhabitedGroup.draw(screen)
         self.formedInhabitedGroup.draw(screen)
         self.parasite.draw(screen)
         
         for div in range(self.divisions):
             divAngle = div*((math.pi*2)/self.divisions)
             self.length = random.randrange(self.tentaclesMin,self.tentaclesMax)
-            outerDivX = w//2 + ((parasiteSize+self.length) * math.cos(divAngle))
-            outerDivY = h//2 + ((parasiteSize+self.length) * math.sin(divAngle))
-            innerDivX = w//2 + ((parasiteSize+6) * math.cos(divAngle))
-            innerDivY = h//2 + ((parasiteSize+6) * math.sin(divAngle))
+            outerDivX = w//2 + ((self.parasiteSize+self.length) * math.cos(divAngle))
+            outerDivY = h//2 + ((self.parasiteSize+self.length) * math.sin(divAngle))
+            innerDivX = w//2 + ((self.parasiteSize+6) * math.cos(divAngle))
+            innerDivY = h//2 + ((self.parasiteSize+6) * math.sin(divAngle))
             pygame.draw.line(self.screen,self.tentacleColor,(innerDivX,innerDivY), (outerDivX, outerDivY), 1)
         
         # pygame.draw.rect(screen, CHARCOAL,(0, 0, w, m)) #border top rect
@@ -351,7 +369,11 @@ class Game(PygameGame):
         # pygame.draw.rect(screen, CHARCOAL,(0, h-m, w, m)) #border top rect
         # 
         # pygame.draw.rect(screen, WHITE,(m,m, w-(2*m),h-(2*m)), 2) #border
+        for star in self.starList:
+            pygame.draw.circle(self.screen, DARKGREY,(star[0],star[1]),2)
+        
         screen.blit(textScore, textScorerect)
         screen.blit(textTitle, textTitlerect)
+        screen.blit(attackText, attackRect)
 
 Game(screenWidth, screenHeight).run()

@@ -54,3 +54,8 @@ def wrap_multi_line(text, font, maxwidth):
     """
     lines = chain(*(wrapline(line, font, maxwidth) for line in text.splitlines()))
     return list(lines)
+    
+### callback clear screen surface
+def clear_callback(surf, rect):
+    color = CHARCOAL
+    surf.fill(color, rect)

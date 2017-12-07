@@ -11,20 +11,21 @@ from gVariables import *
 
 class Parasite(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self,size):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((screenWidth,screenHeight),pygame.SRCALPHA)
         self.coordsX = screenWidth//2
         self.coordsY = screenHeight//2
-        self.radius = parasiteSize
+        self.size = size
+        self.radius = size
         self.rect = self.image.get_rect()
         # pygame.draw.circle(self.image, PINK, self.rect.center, self.radius)
         # pygame.draw.circle(self.image, CHARCOAL,(screenWidth//2,screenHeight//2),
         #                     self.radius)
         pygame.draw.circle(self.image, WHITE,(screenWidth//2,screenHeight//2),
-                            parasiteSize, 5)
+                            size, 5)
     def update(self, tentacleRadius):
-        self.radius = parasiteSize + tentacleRadius
+        self.radius = self.size + tentacleRadius
         
     def move(self, xMove,yMove):
         self.rect.centerx = self.rect.centerx + xMove

@@ -8,6 +8,8 @@ import random
 from pygame.locals import *
 from gVariables import *
 
+
+
 class PygameGame(object):
 
     def init(self):
@@ -66,6 +68,9 @@ class PygameGame(object):
         self.attack = False
         self.attackMeter = 100
         self.tentacleColor = WHITE
+        self.eatMeStop = "empty"
+        self.eatMeStopCount = 0
+        self.parasiteSize = parasiteSize
         pygame.init()
 
     def run(self):
@@ -75,9 +80,12 @@ class PygameGame(object):
         # set the title of the window
         pygame.display.set_caption(self.title)
         
+        
         # call game-specific initialization
         self.init()
         self.playing = True
+        
+        
         
         left = False
         right = False
@@ -130,8 +138,19 @@ class PygameGame(object):
                         self.attack = False
                 if (event.type == pygame.KEYUP) and (event.key == K_1):
                     self.attack = False
+                if (event.type == pygame.KEYDOWN) and (event.key == K_2):
+                    self.eatMeStop = "collected"
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     self.playing = False
+            
+            self.planetGroup.clear(self.screen,clear_callback)
+            self.parasite.clear(self.screen,clear_callback)
+            self.inhabitedGroup.clear(self.screen,clear_callback)
+            self.formedInhabitedGroup.clear(self.screen,clear_callback)
+            self.capturedGroup.clear(self.screen,clear_callback)
+            self.titleGroup.clear(self.screen,clear_callback)
+            self.parasiteTitle.clear(self.screen,clear_callback)
+            self.instructionsInhabited.clear(self.screen,clear_callback)
             
             if left and self.hSpeed < self.speed:
                 self.hSpeed += 1
@@ -161,15 +180,16 @@ class PygameGame(object):
             if not self.gamePlay and self.instructions: #if splash screen on
                 self.drawInstructions(self.screen)
                 
-
             basicfont = pygame.font.Font("DINPro.otf", 20)
-
+            
+            
             self.frameCount += 1
-        
+            
             # Limit frames per second
             clock.tick(self.frameRate)
             
             pygame.display.flip()
+            
         pygame.quit()
         print ('So long!')
 

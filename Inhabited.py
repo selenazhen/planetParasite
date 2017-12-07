@@ -65,9 +65,15 @@ class Inhabited(pygame.sprite.Sprite):
         
     def update(self):
         self.inhabitedSize += 1
+        self.radius = self.inhabitedSize
         pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
                             self.inhabitedSize+5)
         pygame.draw.circle(self.image, self.color,(self.coordsX,self.coordsY),
-                            self.inhabitedSize, 4)
+                            self.inhabitedSize, 3)
+    
+    def small(self):
+        # pygame.draw.circle(self.image, CHARCOAL,(self.coordsX,self.coordsY),
+        #                     self.radius)
+        self.inhabitedSize = planetSize//2
                             
         
