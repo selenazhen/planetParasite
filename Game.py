@@ -63,8 +63,6 @@ class Game(PygameGame):
         self.instructionsInhabited.add(inhabitedTitleNew)
         self.formed = False
         
-        
-        
     def drawInstructions(self,screen):
         screen.fill(self.bgColor)
         w,h,m = self.width,self.height,self.margin
@@ -349,7 +347,7 @@ class Game(PygameGame):
             # print ('new planet')
             
         #add eat me powerups at random time 
-        if self.frameCount % random.randrange(100,200) == 0:
+        if self.frameCount % random.randrange(500,600) == 0:
             eatMeColors = [YELLOW,BLUE,GREEN]
             eatMe = Planet(0,random.choice(eatMeColors))
             if eatMe.color == YELLOW: #if invincibility planet
