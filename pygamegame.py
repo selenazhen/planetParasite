@@ -74,6 +74,7 @@ class PygameGame(object):
         self.eatMeInv = "empty"
         self.eatMeTen = "empty"
         self.eatMeStopCount = 0
+        self.eatMeTenCount = 0
         self.eatMeCurr = 1
         self.eatMeCurrLine = 3
         
@@ -192,6 +193,8 @@ class PygameGame(object):
                     eatMeStop.move(self.hSpeed,self.vSpeed)
                 for eatMeInv in self.eatMeInvGroup:
                     eatMeInv.move(self.hSpeed,self.vSpeed)
+                for eatMeTen in self.eatMeTenGroup:
+                    eatMeTen.move(self.hSpeed,self.vSpeed)
                     
             #if splash screen on
             if not self.gamePlay and not self.instructions:

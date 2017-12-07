@@ -29,6 +29,7 @@ class Game(PygameGame):
         # self.capturedGroup = pygame.sprite.Group()
         self.eatMeInvGroup = pygame.sprite.Group()
         self.eatMeStopGroup = pygame.sprite.Group()
+        self.eatMeTenGroup =  pygame.sprite.Group()
         
         self.titleGroup = pygame.sprite.Group()
         self.parasiteTitle = pygame.sprite.Group()
@@ -244,13 +245,16 @@ class Game(PygameGame):
             # print ('new planet')
             
         #add eat me powerups
-        if self.frameCount % random.randrange(500,700) == 0:
-            eatMeColors = [YELLOW,BLUE]
+        if self.frameCount % random.randrange(100,150) == 0:
+            # eatMeColors = [YELLOW,BLUE,GREEN]
+            eatMeColors = [GREEN]
             eatMe = Planet(0,random.choice(eatMeColors))
             if eatMe.color == YELLOW: #if invincibility planet
                 self.eatMeInvGroup.add(eatMe)
             elif eatMe.color == BLUE: #if stop
                 self.eatMeStopGroup.add(eatMe)
+            elif eatMe.color == GREEN: #if ten len
+                self.eatMeTenGroup.add(eatMe)
         
         for parasite in self.parasite:
             if self.attack:
@@ -280,6 +284,13 @@ class Game(PygameGame):
                     self.eatMeInvGroup.remove(eatMeInv)
                     self.eatMeInv = "collected"
                     print ('eat me inv collected')
+                #if collide with ten len invincible
+                collisionEatMeInvList = pygame.sprite.spritecollide(parasite,self.eatMeTenGroup,  False, 
+                                pygame.sprite.collide_circle)
+                for eatMeTen in collisionEatMeInvList:
+                    self.eatMeTenGroup.remove(eatMeTen)
+                    self.eatMeTen = "collected"
+                    print ('eat me ten collected')
                 #if invincibility is not on, inhabited can harm parasite
                 if not self.eatMeInv == "enabled": 
                     collisionInhabitedList = pygame.sprite.spritecollide(parasite,self.formedInhabitedGroup,  False, 
@@ -318,6 +329,7 @@ class Game(PygameGame):
         self.parasite.draw(screen)
         self.eatMeInvGroup.draw(screen)
         self.eatMeStopGroup.draw(screen)
+        self.eatMeTenGroup.draw(screen)
         
         for div in range(self.divisions):
             divAngle = div*((math.pi*2)/self.divisions)
@@ -384,8 +396,10 @@ class Game(PygameGame):
             pygame.draw.rect(screen,YELLOW,(eTX-20,eTY,40,40))
         if self.eatMeTen == "enabled":
             self.eatMeTenCount += 1
+            self.tentaclesMin = 45
+            self.tentaclesMax = 60
             pygame.draw.rect(screen,RED,(eTX-20,eTY,40,40))
-            if self.eatMeTenCount >= 100: #timer ends for eatme powerup
+            if self.eatMeTenCount >= 300: #timer ends for eatme powerup
                 self.eatMeTen = "empty"
                 self.eatMeTenCount = 0
         if (self.eatMeTen == "empty"):
