@@ -7,10 +7,11 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 DARKGREY = (77,77,77)
 # RED = (255,0,0)
-RED = (255,104,104)
+RED = (236,64,44)
 PINK = (249,167,167)
 ORANGE = (247,126,74)
-YELLOW = (255,250,148)
+# YELLOW = (255,250,148)
+YELLOW = (251,232,51)
 
 
 ### wrap line functions

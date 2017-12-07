@@ -68,7 +68,7 @@ class PygameGame(object):
         self.attack = False
         self.attackMeter = 100
         self.tentacleColor = WHITE
-        self.eatMeStop = "empty"
+        self.eatMeStop = "collected"
         self.eatMeStopCount = 0
         self.parasiteSize = parasiteSize
         pygame.init()
@@ -139,7 +139,7 @@ class PygameGame(object):
                 if (event.type == pygame.KEYUP) and (event.key == K_1):
                     self.attack = False
                 if (event.type == pygame.KEYDOWN) and (event.key == K_2):
-                    self.eatMeStop = "collected"
+                    self.eatMeStop = "enabled"
                 if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
                     self.playing = False
             
